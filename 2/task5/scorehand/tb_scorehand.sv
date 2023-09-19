@@ -139,7 +139,7 @@ module tb_scorehand();
         card3 = 4'd0;   //blank
         #1;
         if(total != 4'd5) begin
-            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd5);
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd6);
             err_reg = 1'd1;
         end
         else begin
@@ -162,10 +162,83 @@ module tb_scorehand();
 
 
         //now test all three card
+        card1 = 4'd2;   //2
+        card2 = 4'd1;   //ace
+        card3 = 4'd3;   //3
+        #1;
+        if(total != 4'd6) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd6);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
 
+        card1 = 4'd3;   //3
+        card2 = 4'd9;   //9
+        card3 = 4'd9;   //9
+        #1;
+        if(total != 4'd1) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd1);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
 
+        card1 = 4'd4;    //4
+        card2 = 4'd10;   //10
+        card3 = 4'd10;   //10
+        #1;
+        if(total != 4'd4) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd4);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
 
-        
+        card1 = 4'd5;   //5
+        card2 = 4'd11;  //jack
+        card3 = 4'd1;   //ace
+        #1;
+        if(total != 4'd6) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd6);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
+
+        card1 = 4'd6;   //6
+        card2 = 4'd0;   //king
+        card3 = 4'd11;  //jack
+        #1;
+        if(total != 4'd6) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd6);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
+
+        card1 = 4'd8;   //8
+        card2 = 4'd0;   //king
+        card3 = 4'd12;  //queen
+        #1;
+        if(total != 4'd8) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd8);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
 
         if(err_reg != 1'd0) begin
             $display("Display errors found. Review above results");
