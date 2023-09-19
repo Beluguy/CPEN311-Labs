@@ -240,6 +240,32 @@ module tb_scorehand();
         end
         #1;
 
+        card1 = 4'd8;   //8
+        card2 = 4'd8;   //8
+        card3 = 4'd7;   //7
+        #1;
+        if(total != 4'd3) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd3);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
+
+        card1 = 4'd6;   //6
+        card2 = 4'd9;   //9
+        card3 = 4'd6;   //6
+        #1;
+        if(total != 4'd1) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd1);
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
+        #1;
+
         if(err_reg != 1'd0) begin
             $display("Display errors found. Review above results");
         end
