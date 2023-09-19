@@ -10,7 +10,7 @@ module tb_card7seg(output err);
 
     reg err_reg;
     assign err = err_reg;
-    card7seg test_7seg (.SW(SW),.HEX0(HEX0));
+    card7seg dut (.SW(SW),.HEX0(HEX0));
 
     initial begin
         err_reg = 1'b0; //initialize err = 1'b0
@@ -197,5 +197,6 @@ module tb_card7seg(output err);
         else begin
         $display("No errors found. Display is working as intended");
         end
+        $stop
     end			
 endmodule
