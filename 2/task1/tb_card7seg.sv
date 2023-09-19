@@ -6,91 +6,87 @@ module tb_card7seg();
     wire [6:0] HEX0;
 
     card7seg dut(.SW, .HEX0);
-
-    initial begin
-        KEY[0] <= 1'b0; 
-        forever #5 KEY[0] <= ~KEY[0];
-    end
     
     initial begin
-        SW = 10'd0; // print nothing (blank)
+        SW = 4'd0; // print nothing (blank)
         #10;
         assert(HEX0 === 7'b1111111) $display("[PASS] for displaying nothing for input 0");
         else $error("[FAIL] to display nothing for input 0");
 
-        SW = 10'd1; // print "1"
+        SW = 4'd1; // print "A"
         #10;
-        assert(HEX0 === 7'b1111001) $display("[PASS] for displaying 'A'");
+        assert(HEX0 === 7'b0001000) $display("[PASS] for displaying 'A'");
         else $error("[FAIL] to display 'A' ");
 
-        SW = 10'd2; // print "2"
+        SW = 4'd2; // print "2"
         #10;
         assert(HEX0 === 7'b0100100) $display("[PASS] for displaying '2'");
         else $error("[FAIL] to display '2'");
 
-        SW = 10'd3; // print "3"
+        SW = 4'd3; // print "3"
         #10;
         assert(HEX0 === 7'b0110000) $display("[PASS] for displaying '3'");
         else $error("[FAIL] to display '3'");
 
-        SW = 10'd4; // print "4"
+        SW = 4'd4; // print "4"
         #10;
         assert(HEX0 === 7'b0011001) $display("[PASS] for displaying '4'");
         else $error("[FAIL] to display '4'");
 
-        SW = 10'd5; // print "5"
+        SW = 4'd5; // print "5"
         #10;
         assert(HEX0 === 7'b0010010) $display("[PASS] for displaying '5'");
         else $error("[FAIL] to display ''5");
 
-        SW = 10'd6; // print "6"
+        SW = 4'd6; // print "6"
         #10;
         assert(HEX0 === 7'b0000010) $display("[PASS] for displaying '6'");
         else $error("[FAIL] to display '6'");
 
-        SW = 10'd7; // print "7"
+        SW = 4'd7; // print "7"
         #10;
         assert(HEX0 === 7'b1111000) $display("[PASS] for displaying '7'");
         else $error("[FAIL] to display '7'");
 
-        SW = 10'd8; // print "8"
+        SW = 4'd8; // print "8"
         #10;
         assert(HEX0 === 7'b0000000) $display("[PASS] for displaying '8'");
         else $error("[FAIL] to display '8'");
 
-        SW = 10'd9; // print "9"
+        SW = 4'd9; // print "9"
         #10;
         assert(HEX0 === 7'b0010000) $display("[PASS] for displaying '9'");
         else $error("[FAIL] to display '9'");
 
-        SW = 10'd10; // print "0"
+        SW = 4'd10; // print "0"
         #10;
         assert(HEX0 === 7'b1000000) $display("[PASS] for displaying '0'");
         else $error("[FAIL] to display '0' ");
 
-        SW = 10'd11; // print "j"
+        SW = 4'd11; // print "j"
         #10;
         assert(HEX0 === 7'b1110000) $display("[PASS] for displaying 'j'");
         else $error("[FAIL] to display 'j'");
 
-        SW = 10'd12; // print "q"
+        SW = 4'd12; // print "q"
         #10;
         assert(HEX0 === 7'b0001100) $display("[PASS] for displaying'q'");
         else $error("[FAIL] to display 'q' ");
 
-        SW = 10'd13; // print "K"
+        SW = 4'd13; // print "K"
         #10;
         assert(HEX0 === 7'b0001001) $display("[PASS] for displaying 'K'");
         else $error("[FAIL] to display 'K'");
 
-        SW = 10'd14; // print nothing (blank)
+        SW = 4'd14; // print nothing (blank)
         #10;
         assert(HEX0 === 7'b1111111) $display("[PASS] for displaying nothing");
         else $error("[FAIL] to display nothing");
 
-        SW = 10'd15; // print nothing (blank)
+        SW = 4'd15; // print nothing (blank)
         #10;
         assert(HEX0 === 7'b1111111) $display("[PASS] for displaying nothing");
         else $error("[FAIL] to display nothing");
+        $stop;
      end
 endmodule
