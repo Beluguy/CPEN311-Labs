@@ -39,13 +39,13 @@ module statemachine(input slow_clock, input resetb,
 
     always_comb begin
         case(statewire)
-            3'd1: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b100000;
-            3'd2: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b000100;
-            3'd3: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b010000;
-            3'd4: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b000010;
-            3'd5: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b001000;
-            3'd6: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b000001;
-            default: {load_pcard1_reg,load_pcard2_reg,load_pcard3_reg,load_dcard1_reg,load_dcard2_reg,load_dcard3_reg} = 6'b000000;
+            3'd1: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b100000;
+            3'd2: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b000100;
+            3'd3: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b010000;
+            3'd4: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b000010;
+            3'd5: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b001000;
+            3'd6: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b000001;
+            default: {load_pcard1_reg, load_pcard2_reg, load_pcard3_reg, load_dcard1_reg, load_dcard2_reg, load_dcard3_reg} = 6'b000000;
         endcase
 
         if (statewire == 3'd7 && (pscore > dscore)) {p_win,d_win} = 2'b10;
@@ -61,9 +61,9 @@ module statemachine(input slow_clock, input resetb,
         else if(statewire < 3'd4) state <= statewire + 3'b001;  // state go from 0 -> 4
 
         else if((statewire == 3'd4) && ((dscore >= 4'd8) || (pscore >= 4'd8))) state <= 3'd7;  // if pscore or dscore reach >= 8, then state go from 4 -> 7 (natural)
-        else if((statewire == 3'd4) && (pscore <= 4'd5)) state <= 3'd5;				           // if pscore is <= 4 -> 5 (pscore <= 5)
+        else if((statewire == 3'd4) && (pscore <= 4'd5)) state <= 3'd5;				           // 4 -> 5 (pscore <= 5)
         else if((statewire == 3'd4) && (pscore > 4'd5) && (dscore <= 4'd5)) state <= 3'd6;     // 4 -> 6 (pscore > 5 and dscore <= 5)
-        else if((statewire == 3'd4) && (pscore > 4'd5) && (dscore > 4'd5)) state <= 3'd7;      // 4- > 7 (pscore > 5 and dscore > 5)
+        else if((statewire == 3'd4) && (pscore > 4'd5) && (dscore > 4'd5)) state <= 3'd7;      // 4 -> 7 (pscore > 5 and dscore > 5)
 
         else if((statewire == 3'd5) && (dscore == 4'd7)) state <= 3'd7;							// 5 -> 7 (dscore  = 7)
         else if((statewire == 3'd5) && (dscore == 4'd6) && (pcard3 >= 4'd6) && (pcard3 <= 4'd7)) state <= 3'd6;    // 5 -> 6 (dscore = 6, pcard3 between 6,7)

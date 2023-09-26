@@ -10,7 +10,7 @@ module card7seg(input [3:0] SW, output [6:0] HEX0);
    //      3
    // 0 = on, 1 = off
    always_comb begin
-      case(SW)         //    GFEDCBA
+      case(SW)               //76543210
          4'b0001: HEX0_reg = 7'b0001000; //A
          4'b0010: HEX0_reg = 7'b0100100; //2
          4'b0011: HEX0_reg = 7'b0110000; //3
