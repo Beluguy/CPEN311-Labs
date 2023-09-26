@@ -14,8 +14,6 @@ module datapath(input slow_clock, input fast_clock, input resetb,
     //
     // Follow the block diagram in the Lab 1 handout closely as you write this code.
 
-    assign pcard3_out = pcard3_reg;
-
     // instantiation of the 6 reg that store the player's and dealer's card
     reg [3:0] pcard1_reg;
     reg [3:0] pcard2_reg;
@@ -24,13 +22,15 @@ module datapath(input slow_clock, input fast_clock, input resetb,
     reg [3:0] dcard2_reg;
     reg [3:0] dcard3_reg;
 
+    assign pcard3_out = pcard3_reg;
+
     // instantiation of the 6 block that drives the HEX display
     card7seg c1 (.SW(pcard1_reg), .HEX0(HEX0));
     card7seg c2 (.SW(pcard2_reg), .HEX0(HEX1));
     card7seg c3 (.SW(pcard3_reg), .HEX0(HEX2));
-    card7seg c4 (.SW(dcard4_reg), .HEX0(HEX3));
-    card7seg c5 (.SW(dcard5_reg), .HEX0(HEX4));
-    card7seg c6 (.SW(dcard6_reg), .HEX0(HEX5));
+    card7seg c4 (.SW(dcard1_reg), .HEX0(HEX3));
+    card7seg c5 (.SW(dcard2_reg), .HEX0(HEX4));
+    card7seg c6 (.SW(dcard3_reg), .HEX0(HEX5));
 
     // instantiation of the 2 blocks that computes the value of cards from players and dealers respectively
     scorehand shp(.card1(pcard1_reg), .card2(pcard2_reg), .card3(pcard3_reg), .total(pscore_out));
@@ -50,17 +50,17 @@ module datapath(input slow_clock, input fast_clock, input resetb,
             dcard2_reg <= 1'd0;
             dcard3_reg <= 1'd0;
         end
-        else if (load_pcard1 == 1'd1 && resetb != 1'd0) pcard1_reg <= new_card;
-        else pcard1_reg <= pcard1_reg;
-        else if (load_pcard2 == 1'd1 && resetb != 1'd0) pcard2_reg <= new_card;
-        else pcar2_reg <= pcard2_reg;
-        else if (load_pcard3 == 1'd1 && resetb != 1'd0) pcard3_reg <= new_card;
-        else pcard3_reg <= pcard3_reg;
-        else if (load_dcard1 == 1'd1 && resetb != 1'd0) dcard1_reg <= new_card;
-        else dcard1_reg <= dcard1_reg;
-        else if (load_dcard2 == 1'd1 && resetb != 1'd0) dcard2_reg <= new_card;
-        else dcard2_reg <= dcard2_reg;
-        else if (load_dcard3 == 1'd1 && resetb != 1'd0) dcard3_reg <= new_card;
-        else dcard3_reg <= dcard3_reg;
+        else if (load_pcard1 == 1'd1) pcard1_reg <= new_card;
+        else if (load_pcard1 == 1'd0) pcard1_reg <= pcard1_reg;
+        else if (load_pcard2 == 1'd1) pcard2_reg <= new_card;
+        else if (load_pcard2 == 1'd0) pcard2_reg <= pcard2_reg;
+        else if (load_pcard3 == 1'd1) pcard3_reg <= new_card;
+        else if (load_pcard3 == 1'd0) pcard3_reg <= pcard3_reg;
+        else if (load_dcard1 == 1'd1) dcard1_reg <= new_card;
+        else if (load_dcard1 == 1'd0) dcard1_reg <= dcard1_reg;
+        else if (load_dcard2 == 1'd1) dcard2_reg <= new_card;
+        else if (load_dcard2 == 1'd0) dcard2_reg <= dcard2_reg;
+        else if (load_dcard3 == 1'd1) dcard3_reg <= new_card;
+        else if (load_dcard3 == 1'd0) dcard3_reg <= dcard3_reg;
     end 
 endmodule

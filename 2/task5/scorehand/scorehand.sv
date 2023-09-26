@@ -24,7 +24,6 @@ module scorehand(input [3:0] card1, input [3:0] card2, input [3:0] card3, output
         else 
             value3[3:0] = 4'd0;
 
-        total_reg = (value1[3:0] + value2[3:0] + value3[3:0]) % 10;
+        total_reg = (value1[3:0] + value2[3:0] + value3[3:0]) % 4'd10;
     end 
 endmodule
-

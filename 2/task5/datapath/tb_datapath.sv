@@ -58,12 +58,18 @@ module tb_datapath();
 
 	initial begin
         resetb = 1'b0;
-		slow_clock = 1'b0;
+		f_clk;
 		s_clk;
 		resetb = 1'b1;
-
         {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b100000;
-        
+    
+        if( != ) begin
+            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd0 );
+            err_reg = 1'd1;
+        end
+        else begin
+            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+        end
 
     end
     $display("Total number of tests failed is: %d", failed);
