@@ -105,7 +105,7 @@ task cycle57;
 	state7(2'b01);
 	end
 	else begin
-	state7(2'b00);
+	state7(2'b11);
 	end
 	end
 endtask
@@ -122,7 +122,7 @@ task cycle67;
 	state7(2'b01);
 	end
 	else begin
-	state7(2'b00);
+	state7(2'b11);
 	end
 	end
 endtask
@@ -141,7 +141,7 @@ task cycle567;
 	state7(2'b01);
 	end
 	else begin
-	state7(2'b00);
+	state7(2'b11);
 	end
 	end
 endtask
@@ -157,7 +157,7 @@ initial begin
 	pscore = 4'b1000;
 	dscore = 4'b1000;
 	clkiterate;
-	state7(2'b00);
+	state7(2'b11);
 	pscore = 4'b1001;
 	dscore = 4'b1000;
 	clkiterate;
@@ -169,7 +169,7 @@ initial begin
 	pscore = 4'b1001;
 	dscore = 4'b1001;
 	clkiterate;
-	state7(2'b00);
+	state7(2'b11);
 	$display("Completed 0-1-2-3-4-7 (pscore >=8 or dscore >=8)\n");
 
 	$display("Testing condition 1");

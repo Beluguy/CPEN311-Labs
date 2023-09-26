@@ -53,6 +53,7 @@ endcase
 
 if (statewire == 3'b111 && (pscore > dscore)) {p_win,d_win} = 2'b10;
 else if (statewire == 3'b111 && (pscore < dscore)) {p_win,d_win} = 2'b01;
+else if (statewire == 3'b111 && (pscore == dscore)) {p_win,d_win} = 2'b11;
 else {p_win,d_win} = 2'b00;
 
 
