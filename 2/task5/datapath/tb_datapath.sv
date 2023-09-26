@@ -28,11 +28,13 @@ module tb_datapath();
     wire [6:0] HEX4;
     wire [6:0] HEX5;
 
+    wire [3:0] new_card;
+
     datapath dut (.slow_clock(slow_clock), .fast_clock(fast_clock), input resetb,
                 .load_pcard1(load_pcard1), .load_pcard2(load_pcard2), .load_pcard3(load_pcard3),
                 .load_dcard1(load_dcard1), .load_dcard2(load_dcard2), .load_dcard3(load_dcard3),
                 .pcard3_out (pcard3), .pscore_out(pscore), .dscore_out(dscore),
-                .HEX5(), .HEX4(), .HEX3(), .HEX2(), .HEX1(), .HEX0());
+                .HEX5(HEX0), .HEX4(HEX0), .HEX3(HEX0), .HEX2(HEX0), .HEX1(HEX0), .HEX0(HEX0));
 
     task s_clk;
 		begin
@@ -55,8 +57,13 @@ module tb_datapath();
 	endtask
 
 	initial begin
+        resetb = 1'b0;
+		slow_clock = 1'b0;
+		s_clk;
+		resetb = 1'b1;
 
-
+        {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b100000;
+        
 
     end
     $display("Total number of tests failed is: %d", failed);

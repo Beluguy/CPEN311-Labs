@@ -42,11 +42,25 @@ module datapath(input slow_clock, input fast_clock, input resetb,
 
     // for the registers
     always_ff @(posedge slow_clock) begin
-        if (load_pcard1 == 1 && resetb != 0) pcard1_reg <= new_card;
-        else if (load_pcard2 == 1 && resetb != 0) pcard2_reg <= new_card;
-        else if (load_pcard3 == 1 && resetb != 0) pcard3_reg <= new_card;
-        else if (load_dcard1 == 1 && resetb != 0) dcard1_reg <= new_card;
-        else if (load_dcard2 == 1 && resetb != 0) dcard2_reg <= new_card;
-        else if (load_dcard3 == 1 && resetb != 0) dcard3_reg <= new_card;
+        if (resetb == 1'd0) begin
+            pcard1_reg <= 1'd0;
+            pcard2_reg <= 1'd0;
+            pcard3_reg <= 1'd0;
+            dcard1_reg <= 1'd0;
+            dcard2_reg <= 1'd0;
+            dcard3_reg <= 1'd0;
+        end
+        else if (load_pcard1 == 1'd1 && resetb != 1'd0) pcard1_reg <= new_card;
+        else pcard1_reg <= pcard1_reg;
+        else if (load_pcard2 == 1'd1 && resetb != 1'd0) pcard2_reg <= new_card;
+        else pcar2_reg <= pcard2_reg;
+        else if (load_pcard3 == 1'd1 && resetb != 1'd0) pcard3_reg <= new_card;
+        else pcard3_reg <= pcard3_reg;
+        else if (load_dcard1 == 1'd1 && resetb != 1'd0) dcard1_reg <= new_card;
+        else dcard1_reg <= dcard1_reg;
+        else if (load_dcard2 == 1'd1 && resetb != 1'd0) dcard2_reg <= new_card;
+        else dcard2_reg <= dcard2_reg;
+        else if (load_dcard3 == 1'd1 && resetb != 1'd0) dcard3_reg <= new_card;
+        else dcard3_reg <= dcard3_reg;
     end 
 endmodule
