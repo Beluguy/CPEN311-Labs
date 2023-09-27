@@ -100,7 +100,7 @@ module tb_statemachine();
 			state7(2'b01);
 		end
 		else begin
-			state7(2'b00);
+			state7(2'b11);
 		end
 		end
 	endtask
@@ -117,7 +117,7 @@ module tb_statemachine();
 			state7(2'b01);
 		end
 		else begin
-			state7(2'b00);
+			state7(2'b11);
 		end
 		end
 	endtask
@@ -136,7 +136,7 @@ module tb_statemachine();
 			state7(2'b01);
 		end
 		else begin
-			state7(2'b00);
+			state7(2'b11);
 		end
 		end
 	endtask
@@ -161,7 +161,7 @@ module tb_statemachine();
 		pscore = 4'b1001;
 		dscore = 4'b1001;
 		clkiterate;
-		state7(2'b00);
+		state7(2'b11);
 		$display("Completed 0-1-2-3-4-7 (pscore >=8 or dscore >=8)\n");
 
 		$display("Testing condition 1");
