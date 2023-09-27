@@ -3,11 +3,11 @@ module card7seg(input [3:0] SW, output [6:0] HEX0);
    assign HEX0 = HEX0_reg;
 
    // LED mapping 
-   //      A
-   //    F   B
-   //      G
-   //    E   C
-   //      D
+   //      0
+   //    5   1
+   //      6
+   //    4   2
+   //      3
    // 0 = on, 1 = off
    always_comb begin
       case(SW)         //    GFEDCBA

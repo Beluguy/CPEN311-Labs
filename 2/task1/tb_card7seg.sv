@@ -1,6 +1,5 @@
 `timescale 1 ps / 1 ps
-
-module tb_card7seg(output err);
+module tb_card7seg();
     // Your testbench goes here. Make sure your tests exercise the entire design
     // in the .sv file.  Note that in our tests the simulator will exit after
     // 10,000 ticks (equivalent to "initial #10000 $finish();").
@@ -9,7 +8,6 @@ module tb_card7seg(output err);
     wire [6:0] HEX0;
 
     reg err_reg;
-    assign err = err_reg;
     card7seg dut (.SW(SW),.HEX0(HEX0));
 
     initial begin
@@ -197,6 +195,6 @@ module tb_card7seg(output err);
         else begin
         $display("No errors found. Display is working as intended");
         end
-        $stop
+        $stop;
     end			
 endmodule
