@@ -4,7 +4,6 @@ module tb_datapath();
 // in the .sv file.  Note that in our tests the simulator will exit after
 // 10,000 ticks (equivalent to "initial #10000 $finish();").
     integer failed = 0;
-    integer passed = 0;
 
     reg slow_clock;
     reg fast_clock;
@@ -30,7 +29,7 @@ module tb_datapath();
 
     wire [3:0] new_card;
 
-    datapath dut (.slow_clock(slow_clock), .fast_clock(fast_clock), input resetb,
+    datapath dut (.slow_clock(slow_clock), .fast_clock(fast_clock), .resetb(resetb),
                 .load_pcard1(load_pcard1), .load_pcard2(load_pcard2), .load_pcard3(load_pcard3),
                 .load_dcard1(load_dcard1), .load_dcard2(load_dcard2), .load_dcard3(load_dcard3),
                 .pcard3_out (pcard3), .pscore_out(pscore), .dscore_out(dscore),
@@ -38,42 +37,36 @@ module tb_datapath();
 
     task s_clk;
 		begin
-		#2;
+		#5;
 		slow_clock = 1'b1;
-		#2;
+		#5;
 		slow_clock = 1'b0;
-		#2;
-		end
-	endtask
-
-    task f_clk;
-		begin
-		#1;
-		fast_clock = 1'b1;
-		#1;
-		fast_clock = 1'b0;
-		#1;
+		#5;
 		end
 	endtask
 
 	initial begin
         resetb = 1'b0;
-		f_clk;
-		s_clk;
+		#1;
 		resetb = 1'b1;
+
+        force new_card = 4'd1;
+		s_clk; 
         {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b100000;
-    
-        if( != ) begin
-            $display("Error: total is %d, expected total for card1:%d, card2:%d, and card3:%d is %d", total, card1, card2, card3, 4'd0 );
-            err_reg = 1'd1;
+        if(HEX0 != 7'b0001000 && HEX1 != 7'b1111111 && HEX2 != 7'b1111111 && HEX3 != 7'b1111111 && HEX4 != 7'b1111111 && HEX5 != 7'b1111111) begin
+            $display("Error: HEX0 = %d, HEX1 = %d, HEX2 = %d, HEX3 = %d, HEX4, = %d, HEX5 = %d", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+            failed++;
         end
         else begin
-            $display("total is %d, which is correct for card1:%d, card2:%d, and card3:%d", total, card1, card2, card3);
+            $display("HEX display is correct");
         end
+        s_clk;
 
+
+
+
+        $display("Total number of tests failed is: %d", failed);
+        $stop;
     end
-    $display("Total number of tests failed is: %d", failed);
-    $display("Total number of tests passed is: %d", passed);
-    $stop;	
 endmodule
 

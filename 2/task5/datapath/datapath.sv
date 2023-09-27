@@ -25,12 +25,12 @@ module datapath(input slow_clock, input fast_clock, input resetb,
     assign pcard3_out = pcard3_reg;
 
     // instantiation of the 6 block that drives the HEX display
-    card7seg c1 (.SW(pcard1_reg), .HEX0(HEX0));
-    card7seg c2 (.SW(pcard2_reg), .HEX0(HEX1));
-    card7seg c3 (.SW(pcard3_reg), .HEX0(HEX2));
-    card7seg c4 (.SW(dcard1_reg), .HEX0(HEX3));
-    card7seg c5 (.SW(dcard2_reg), .HEX0(HEX4));
-    card7seg c6 (.SW(dcard3_reg), .HEX0(HEX5));
+    card7seg p1 (.SW(pcard1_reg), .HEX0(HEX0));
+    card7seg p2 (.SW(pcard2_reg), .HEX0(HEX1));
+    card7seg p3 (.SW(pcard3_reg), .HEX0(HEX2));
+    card7seg d1 (.SW(dcard1_reg), .HEX0(HEX3));
+    card7seg d2 (.SW(dcard2_reg), .HEX0(HEX4));
+    card7seg d3 (.SW(dcard3_reg), .HEX0(HEX5));
 
     // instantiation of the 2 blocks that computes the value of cards from players and dealers respectively
     scorehand shp(.card1(pcard1_reg), .card2(pcard2_reg), .card3(pcard3_reg), .total(pscore_out));
@@ -43,12 +43,12 @@ module datapath(input slow_clock, input fast_clock, input resetb,
     // for the registers
     always_ff @(posedge slow_clock) begin
         if (resetb == 1'd0) begin
-            pcard1_reg <= 1'd0;
-            pcard2_reg <= 1'd0;
-            pcard3_reg <= 1'd0;
-            dcard1_reg <= 1'd0;
-            dcard2_reg <= 1'd0;
-            dcard3_reg <= 1'd0;
+            pcard1_reg <= 4'd0;
+            pcard2_reg <= 4'd0;
+            pcard3_reg <= 4'd0;
+            dcard1_reg <= 4'd0;
+            dcard2_reg <= 4'd0;
+            dcard3_reg <= 4'd0;
         end
         else if (load_pcard1 == 1'd1) pcard1_reg <= new_card;
         else if (load_pcard1 == 1'd0) pcard1_reg <= pcard1_reg;
