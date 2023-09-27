@@ -195,6 +195,6 @@ module tb_card7seg();
         else begin
         $display("No errors found. Display is working as intended");
         end
-        $stop
+        $stop;
     end			
 endmodule
