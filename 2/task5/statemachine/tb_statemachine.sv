@@ -30,10 +30,10 @@ module tb_statemachine();
 			.pcard3(pcard3),
 			.load_pcard1(load_pcard1),
 			.load_pcard2(load_pcard2),
-					.load_pcard3(load_pcard3),
-					.load_dcard1(load_dcard1),
+			.load_pcard3(load_pcard3),
+			.load_dcard1(load_dcard1),
 			.load_dcard2(load_dcard2),
-					.load_dcard3(load_dcard3),
+			.load_dcard3(load_dcard3),
 			.player_win_light(player_win_light),
 			.dealer_win_light(dealer_win_light));
 

@@ -56,7 +56,7 @@ module statemachine(input slow_clock, input resetb,
     always_ff @(posedge slow_clock) begin
         if(resetb == 1'd0) begin
             state <= 3'd0;   // reset
-        end
+    end
 
         else if(statewire < 3'd4) state <= statewire + 3'b001;  // state go from 0 -> 4
 
