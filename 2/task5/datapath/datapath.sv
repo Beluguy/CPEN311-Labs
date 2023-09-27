@@ -50,17 +50,23 @@ module datapath(input slow_clock, input fast_clock, input resetb,
             dcard2_reg <= 4'd0;
             dcard3_reg <= 4'd0;
         end
-        else if (load_pcard1 == 1'd1) pcard1_reg <= new_card;
-        else if (load_pcard1 == 1'd0) pcard1_reg <= pcard1_reg;
-        else if (load_pcard2 == 1'd1) pcard2_reg <= new_card;
-        else if (load_pcard2 == 1'd0) pcard2_reg <= pcard2_reg;
-        else if (load_pcard3 == 1'd1) pcard3_reg <= new_card;
-        else if (load_pcard3 == 1'd0) pcard3_reg <= pcard3_reg;
-        else if (load_dcard1 == 1'd1) dcard1_reg <= new_card;
-        else if (load_dcard1 == 1'd0) dcard1_reg <= dcard1_reg;
-        else if (load_dcard2 == 1'd1) dcard2_reg <= new_card;
-        else if (load_dcard2 == 1'd0) dcard2_reg <= dcard2_reg;
-        else if (load_dcard3 == 1'd1) dcard3_reg <= new_card;
-        else if (load_dcard3 == 1'd0) dcard3_reg <= dcard3_reg;
-    end 
+        else begin
+            case({load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3})
+                6'b100000: pcard1_reg <= new_card;
+                6'b010000: pcard2_reg <= new_card;
+                6'b001000: pcard3_reg <= new_card;
+                6'b000100: dcard1_reg <= new_card;
+                6'b000010: dcard2_reg <= new_card;
+                6'b000001: dcard3_reg <= new_card;
+                default: begin
+                    pcard1_reg <= pcard1_reg;
+                    pcard2_reg <= pcard2_reg;
+                    pcard3_reg <= pcard3_reg;
+                    dcard1_reg <= dcard1_reg;
+                    dcard2_reg <= dcard2_reg;
+                    dcard3_reg <= dcard3_reg;
+                end
+            endcase 
+        end 
+    end
 endmodule

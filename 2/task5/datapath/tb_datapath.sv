@@ -35,20 +35,20 @@ module tb_datapath();
 
     task s_clk;
 		begin
-        #5;
+        #2;
 		slow_clock = 1'b1;
-		#5;
+		#2;
 		slow_clock = 1'b0;
-		#5;
+		#2;
 		end
 	endtask
 
 	initial begin
         resetb = 1'b0;
-		#5;
+		#2;
 		resetb = 1'b1;
 
-        //testing load_pcard1    
+        $display("Now testing load_pcard1 ");
         //forcing new_card to be 0 and test it HEX display
         force dut.new_card = 4'd0;
         {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b100000;
@@ -58,7 +58,7 @@ module tb_datapath();
             failed++;
         end
         else begin
-            $display("HEX display is correct");
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
 
         //forcing new_card to be A and test it HEX display
@@ -70,7 +70,7 @@ module tb_datapath();
             failed++;
         end
         else begin
-            $display("HEX display is correct");
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
 
         //forcing new_card to be 9 and test it HEX display
@@ -82,7 +82,7 @@ module tb_datapath();
             failed++;
         end
         else begin
-            $display("HEX display is correct");
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
 
         //forcing new_card to be Q and test it HEX display
@@ -94,11 +94,12 @@ module tb_datapath();
             failed++;
         end
         else begin
-            $display("HEX display is correct");
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
 
 
-        //testing load_dcard1    
+
+        $display("Now testing load_dcard1 ");
         //forcing new_card to be 0 and test it HEX display
         force dut.new_card = 4'd0;
         {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b000100;
@@ -108,7 +109,7 @@ module tb_datapath();
             failed++;
         end
         else begin
-            $display("HEX display is correct");
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
 
         //forcing new_card to be 3 and test it HEX display
@@ -146,6 +147,62 @@ module tb_datapath();
         else begin
             $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
         end
+
+
+        $display("Now testing load_pcard2 ");
+        //forcing new_card to be 0 and test it HEX display
+        force dut.new_card = 4'd0;
+        {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b010000;
+        s_clk;
+        if(HEX0 != 7'b0011000 || HEX1 != 7'b1111111 || HEX2 != 7'b1111111 || HEX3 != 7'b0001001 || HEX4 != 7'b1111111 || HEX5 != 7'b1111111) begin
+            $error("HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+            failed++;
+        end
+        else begin
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+        end
+
+        //forcing new_card to be 3 and test it HEX display
+        force dut.new_card = 4'd4;
+        {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b010000;
+        s_clk; 
+        if(HEX0 != 7'b0011000 || HEX1 != 7'b0011001 || HEX2 != 7'b1111111 || HEX3 != 7'b0001001 || HEX4 != 7'b1111111 || HEX5 != 7'b1111111) begin
+            $error("HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+            failed++;
+        end
+        else begin
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+        end
+
+        //forcing new_card to be 8 and test it HEX display
+        force dut.new_card = 4'd7;
+        {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b010000;
+        s_clk; 
+        if(HEX0 != 7'b0011000 || HEX1 != 7'b1111000 || HEX2 != 7'b1111111 || HEX3 != 7'b0001001 || HEX4 != 7'b1111111 || HEX5 != 7'b1111111) begin
+            $error("HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+            failed++;
+        end
+        else begin
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+        end
+
+        //forcing new_card to be J and test it HEX display
+        force dut.new_card = 4'd15;
+        {load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2, load_dcard3} = 6'b010000;
+        s_clk; 
+        if(HEX0 != 7'b0011000 || HEX1 != 7'b1111111 || HEX2 != 7'b1111111 || HEX3 != 7'b0001001 || HEX4 != 7'b1111111 || HEX5 != 7'b1111111) begin
+            $error("HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+            failed++;
+        end
+        else begin
+            $display("Correct: HEX0 = %b, HEX1 = %b, HEX2 = %b, HEX3 = %b, HEX4, = %b, HEX5 = %b", HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+        end
+
+
+
+
+
+
 
 
 
