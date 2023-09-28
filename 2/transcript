@@ -1041,3 +1041,14 @@ run -all
 # Completed cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)
 # 
 # All tests completed
+# Compile of card7seg.sv was successful.
+# Compile of dealcard.sv was successful.
+# Compile of statemachine.sv was successful.
+# Compile of tb_statemachine.sv was successful.
+# Compile of tb_datapath.sv was successful.
+# Compile of datapath.sv was successful.
+# Compile of tb_scorehand.sv was successful.
+# Compile of scorehand.sv was successful.
+# Compile of task5.sv was successful.
+# Compile of tb_task5.sv was successful.
+# 10 compiles, 0 failed with no errors.
