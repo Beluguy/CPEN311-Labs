@@ -804,3 +804,240 @@ run -all
 # Compile of task5.sv was successful.
 # Compile of tb_task5.sv was successful.
 # 10 compiles, 0 failed with no errors.
+# Compile of card7seg.sv was successful.
+# Compile of dealcard.sv was successful.
+# Compile of statemachine.sv was successful.
+# Compile of tb_statemachine.sv was successful.
+# Compile of tb_datapath.sv was successful.
+# Compile of datapath.sv was successful.
+# Compile of tb_scorehand.sv was successful.
+# Compile of scorehand.sv was successful.
+# Compile of task5.sv was successful.
+# Compile of tb_task5.sv was successful.
+# 10 compiles, 0 failed with no errors.
+# Compile of card7seg.sv was successful.
+# Compile of dealcard.sv was successful.
+# Compile of statemachine.sv was successful.
+# Compile of tb_statemachine.sv was successful.
+# Compile of tb_datapath.sv was successful.
+# Compile of datapath.sv was successful.
+# Compile of tb_scorehand.sv was successful.
+# Compile of scorehand.sv was successful.
+# Compile of task5.sv was successful.
+# Compile of tb_task5.sv was successful.
+# 10 compiles, 0 failed with no errors.
+# Compile of card7seg.sv was successful.
+# Compile of dealcard.sv was successful.
+# Compile of statemachine.sv was successful.
+# Compile of tb_statemachine.sv was successful.
+# Compile of tb_datapath.sv was successful.
+# Compile of datapath.sv was successful.
+# Compile of tb_scorehand.sv was successful.
+# Compile of scorehand.sv was successful.
+# Compile of task5.sv was successful.
+# Compile of tb_task5.sv was successful.
+# 10 compiles, 0 failed with no errors.
+restart -f
+# Loading work.tb_scorehand
+# Loading work.scorehand
+vsim -gui work.tb_statemachine
+# End time: 17:57:54 on Sep 27,2023, Elapsed time: 1:44:03
+# Errors: 0, Warnings: 2
+# vsim -gui work.tb_statemachine 
+# Start time: 17:57:54 on Sep 27,2023
+# Loading sv_std.std
+# Loading work.tb_statemachine
+# Loading work.statemachine
+run -all
+# Testing 'natural' condition
+# Beginning cycle 0-1-2-3-4-7 (pscore >=8 or dscore >=8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 7, correct light config for pscore =  8, dscore =  8
+# State 7, correct load outputs
+# State 7, correct light config for pscore =  9, dscore =  8
+# State 7, correct load outputs
+# State 7, correct light config for pscore =  8, dscore =  9
+# State 7, correct load outputs
+# State 7, correct light config for pscore =  9, dscore =  9
+# State 7, correct load outputs
+# Completed 0-1-2-3-4-7 (pscore >=8 or dscore >=8)
+# 
+# Testing condition 1
+# Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 7)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  7
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 7)
+# 
+# Testing condition 2 true
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 6, pcard3 = 6)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  6
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 6, pcard3 = 6)
+# 
+# Testing condition 2 false
+# Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 6, pcard3 = 5)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  6
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 6, pcard3 = 5)
+# 
+# Testing condition 3 true
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 5, pcard3 = 4)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  5
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 5, pcard3 = 4)
+# 
+# Testing condition 3 false
+# Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 5, pcard3 = 3)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  5
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 5, pcard3 = 3)
+# 
+# Testing condition 4 true
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 4, pcard3 = 2)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  4
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 4, pcard3 = 2)
+# 
+# Testing condition 4 false
+# Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 4, pcard3 = 1)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  4
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 4, pcard3 = 1)
+# 
+# Testing condition 5 true
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 3, pcard3 = 1)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  3
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 3, pcard3 = 1)
+# 
+# Testing condition 5 false
+# Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 3, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  3
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 3, pcard3 = 8)
+# 
+# Testing condition 6 (2)
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 2, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  2
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 2, pcard3 = 8)
+# 
+# Testing condition 6 (1)
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 1, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  1
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 1, pcard3 = 8)
+# 
+# Testing condition 6 (0)
+# Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 0, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 5, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  5, dscore =  0
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 0, pcard3 = 8)
+# 
+# Testing condition 7 true
+# Beginning cycle 0-1-2-3-4-6-7 (pscore = 6, dscore = 0, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 6, correct load outputs
+# State 7, correct light config for pscore =  6, dscore =  0
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-6-7 (pscore = 6, dscore = 0, pcard3 = 8)
+# 
+# Testing condition 7 false
+# Beginning cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)
+# State 0, correct load outputs
+# State 1, correct load outputs
+# State 2, correct load outputs
+# State 3, correct load outputs
+# State 4, correct load outputs
+# State 7, correct light config for pscore =  7, dscore =  6
+# State 7, correct load outputs
+# Completed cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)
+# 
+# All tests completed

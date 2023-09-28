@@ -146,7 +146,7 @@ module tb_statemachine();
 		$display("Testing 'natural' condition");
 		$display("Beginning cycle 0-1-2-3-4-7 (pscore >=8 or dscore >=8)");
 		startcycle;
-		pscore = 4'b0111;
+		pscore = 4'b1000;
 		dscore = 4'b1000;
 		clkiterate;
 		state7(2'b00);

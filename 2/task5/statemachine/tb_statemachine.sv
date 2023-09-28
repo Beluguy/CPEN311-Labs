@@ -73,6 +73,7 @@ module tb_statemachine();
 		state(3'b011,6'b010000);
 		clkiterate;
 		state(3'b100,6'b000010);
+		clkiterate;
 		end
 	endtask
 
@@ -93,6 +94,7 @@ module tb_statemachine();
 		clkiterate;
 		state(3'b101,6'b001000);
 		clkiterate;
+		clkiterate;
 		if (pscore > dscore) begin
 			state7(2'b10);
 		end
@@ -109,6 +111,7 @@ module tb_statemachine();
 		begin
 		clkiterate;
 		state(3'b110,6'b000001);
+		clkiterate;
 		clkiterate;
 		if (pscore > dscore) begin
 			state7(2'b10);
@@ -128,6 +131,7 @@ module tb_statemachine();
 		state(3'b101,6'b001000);
 		clkiterate;
 		state(3'b110,6'b000001);
+		clkiterate;
 		clkiterate;
 		if (pscore > dscore) begin
 			state7(2'b10);
@@ -160,6 +164,7 @@ module tb_statemachine();
 		state7(2'b01);
 		pscore = 4'b1001;
 		dscore = 4'b1001;
+		clkiterate;
 		clkiterate;
 		state7(2'b11);
 		$display("Completed 0-1-2-3-4-7 (pscore >=8 or dscore >=8)\n");
@@ -287,6 +292,7 @@ module tb_statemachine();
 		pscore = 4'b0111;
 		dscore = 4'b0110;
 		pcard3 = 4'b1000;
+		clkiterate;
 		clkiterate;
 		state7(2'b10);
 		$display("Completed cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)\n");
