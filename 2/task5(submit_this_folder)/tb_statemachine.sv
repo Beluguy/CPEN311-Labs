@@ -1,0 +1,302 @@
+`timescale 1 ps / 1 ps
+module tb_statemachine();
+	// Your testbench goes here. Make sure your tests exercise the entire design
+	// in the .sv file.  Note that in our tests the simulator will exit after
+	// 10,000 ticks (equivalent to "initial #10000 $finish();").
+
+						//input slow_clock, input resetb,
+				//     input [3:0] dscore, input [3:0] pscore, input [3:0] pcard3,
+				//     output load_pcard1, output load_pcard2,output load_pcard3,
+				//     output load_dcard1, output load_dcard2, output load_dcard3,
+				//     output player_win_light, output dealer_win_light);			
+	reg slow_clock;
+	reg resetb; 
+	reg [3:0] dscore;
+	reg [3:0] pscore;
+	reg [3:0] pcard3;
+	wire load_pcard1;
+	wire load_pcard2;
+	wire load_pcard3;
+	wire load_dcard1;
+	wire load_dcard2;
+	wire load_dcard3;
+	wire player_win_light;
+	wire dealer_win_light;
+
+	statemachine dut (.slow_clock(slow_clock),
+			.resetb(resetb),
+			.dscore(dscore),
+			.pscore(pscore),
+			.pcard3(pcard3),
+			.load_pcard1(load_pcard1),
+			.load_pcard2(load_pcard2),
+			.load_pcard3(load_pcard3),
+			.load_dcard1(load_dcard1),
+			.load_dcard2(load_dcard2),
+			.load_dcard3(load_dcard3),
+			.player_win_light(player_win_light),
+			.dealer_win_light(dealer_win_light));
+
+	task clkiterate;
+		begin
+		#1;
+		slow_clock = 1'b1;
+		#1;
+		slow_clock = 1'b0;
+		#1;
+		end
+	endtask
+
+	task state (input [2:0] state, [5:0] expected);
+		begin
+		if({load_pcard1, load_pcard2, load_pcard3, load_dcard1, load_dcard2,load_dcard3} == expected) begin
+			$display("State %d, correct load outputs", state);
+		end
+		else begin
+			$display("State %d, incorrect load outputs: Got %b, expected %b", state, {load_pcard1,load_pcard2,load_pcard3,load_dcard1,load_dcard2,load_dcard3}, expected);
+		end
+		end	
+	endtask
+
+	task startcycle;
+		begin
+		resetb = 1'b0;
+		slow_clock = 1'b0;
+		clkiterate;
+		resetb = 1'b1;
+		state(3'b000,6'b000000);
+		clkiterate;
+		state(3'b001,6'b100000);
+		clkiterate;
+		state(3'b010,6'b000100);
+		clkiterate;
+		state(3'b011,6'b010000);
+		clkiterate;
+		state(3'b100,6'b000010);
+		clkiterate;
+		end
+	endtask
+
+	task state7 (input [1:0] expectedlight);
+		begin
+		if({player_win_light, dealer_win_light} == expectedlight) begin
+			$display("State 7, correct light config for pscore = %d, dscore = %d", pscore, dscore);
+		end
+		else begin
+			$display("State 7, incorrect light config for pscore = %d, dscore = %d: Got %b, expected %b", pscore,dscore, {player_win_light, dealer_win_light}, expectedlight);
+		end
+		state(3'b111,6'b000000);
+		end
+	endtask
+
+	task cycle57;
+		begin
+		clkiterate;
+		state(3'b101,6'b001000);
+		clkiterate;
+		clkiterate;
+		if (pscore > dscore) begin
+			state7(2'b10);
+		end
+		else if (pscore < dscore) begin
+			state7(2'b01);
+		end
+		else begin
+			state7(2'b11);
+		end
+		end
+	endtask
+
+	task cycle67;
+		begin
+		clkiterate;
+		state(3'b110,6'b000001);
+		clkiterate;
+		clkiterate;
+		if (pscore > dscore) begin
+			state7(2'b10);
+		end
+		else if (pscore < dscore) begin
+			state7(2'b01);
+		end
+		else begin
+			state7(2'b11);
+		end
+		end
+	endtask
+
+	task cycle567;
+		begin
+		clkiterate;
+		state(3'b101,6'b001000);
+		clkiterate;
+		state(3'b110,6'b000001);
+		clkiterate;
+		clkiterate;
+		if (pscore > dscore) begin
+			state7(2'b10);
+		end
+		else if (pscore < dscore) begin
+			state7(2'b01);
+		end
+		else begin
+			state7(2'b11);
+		end
+		end
+	endtask
+
+
+	initial begin
+		$display("Testing 'natural' condition");
+		$display("Beginning cycle 0-1-2-3-4-7 (pscore >=8 or dscore >=8)");
+		startcycle;
+		pscore = 4'b1000;
+		dscore = 4'b1000;
+		clkiterate;
+		state7(2'b00);
+		pscore = 4'b1001;
+		dscore = 4'b1000;
+		clkiterate;
+		state7(2'b10);
+		pscore = 4'b1000;
+		dscore = 4'b1001;
+		clkiterate;
+		state7(2'b01);
+		pscore = 4'b1001;
+		dscore = 4'b1001;
+		clkiterate;
+		clkiterate;
+		state7(2'b11);
+		$display("Completed 0-1-2-3-4-7 (pscore >=8 or dscore >=8)\n");
+
+		$display("Testing condition 1");
+		$display("Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 7)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0111;
+		cycle57;
+		$display("Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 7)\n");
+
+		$display("Testing condition 2 true");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 6, pcard3 = 6)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0110;
+		pcard3 = 4'b0110;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 6, pcard3 = 6)\n");
+		
+		$display("Testing condition 2 false");
+		$display("Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 6, pcard3 = 5)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0110;
+		pcard3 = 4'b0101;
+		cycle57;
+		$display("Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 6, pcard3 = 5)\n");
+		
+		$display("Testing condition 3 true");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 5, pcard3 = 4)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0101;
+		pcard3 = 4'b0100;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 5, pcard3 = 4)\n");
+		
+
+		$display("Testing condition 3 false");
+		$display("Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 5, pcard3 = 3)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0101;
+		pcard3 = 4'b0011;
+		cycle57;
+		$display("Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 5, pcard3 = 3)\n");
+		
+		$display("Testing condition 4 true");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 4, pcard3 = 2)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0100;
+		pcard3 = 4'b0010;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 4, pcard3 = 2)\n");
+		
+		$display("Testing condition 4 false");
+		$display("Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 4, pcard3 = 1)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0100;
+		pcard3 = 4'b0001;
+		cycle57;
+		$display("Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 4, pcard3 = 1)\n");
+		
+		$display("Testing condition 5 true");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 3, pcard3 = 1)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0011;
+		pcard3 = 4'b0001;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 3, pcard3 = 1)\n");
+		
+		$display("Testing condition 5 false");
+		$display("Beginning cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 3, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0011;
+		pcard3 = 4'b1000;
+		cycle57;
+		$display("Completed cycle 0-1-2-3-4-5-7 (pscore = 5, dscore = 3, pcard3 = 8)\n");
+
+		$display("Testing condition 6 (2)");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 2, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0010;
+		pcard3 = 4'b1000;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 2, pcard3 = 8)\n");
+
+		$display("Testing condition 6 (1)");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 1, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0001;
+		pcard3 = 4'b1000;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 1, pcard3 = 8)\n");
+
+		$display("Testing condition 6 (0)");
+		$display("Beginning cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 0, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0101;
+		dscore = 4'b0000;
+		pcard3 = 4'b1000;
+		cycle567;
+		$display("Completed cycle 0-1-2-3-4-5-6-7 (pscore = 5, dscore = 0, pcard3 = 8)\n");
+
+		$display("Testing condition 7 true");
+		$display("Beginning cycle 0-1-2-3-4-6-7 (pscore = 6, dscore = 0, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0110;
+		dscore = 4'b0000;
+		pcard3 = 4'b1000;
+		cycle67;
+		$display("Completed cycle 0-1-2-3-4-6-7 (pscore = 6, dscore = 0, pcard3 = 8)\n");
+
+		$display("Testing condition 7 false");
+		$display("Beginning cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)");
+		startcycle;
+		pscore = 4'b0111;
+		dscore = 4'b0110;
+		pcard3 = 4'b1000;
+		clkiterate;
+		clkiterate;
+		state7(2'b10);
+		$display("Completed cycle 0-1-2-3-4-7 (pscore = 7, dscore = 6, pcard3 = 8)\n");
+
+		$display("All tests completed");
+	end
+endmodule
