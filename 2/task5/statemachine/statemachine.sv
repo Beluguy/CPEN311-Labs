@@ -60,15 +60,14 @@ module statemachine(input slow_clock, input resetb,
     end
 
         else if(statewire < 3'd4) state <= statewire + 3'b001;  // state go from 0 -> 4
-	else if(statewire == 3'd4) state <= 4'd8;
+	    else if(statewire == 3'd4) state <= 4'd8;
 
         else if((statewire == 4'd8) && ((dscore >= 4'd8) || (pscore >= 4'd8))) state <= 4'd9;  // if pscore or dscore reach >= 8, then state go from 4 -> 7 (natural)
         else if((statewire == 4'd8) && (pscore <= 4'd5)) state <= 3'd5;				           // 4 -> 5 (pscore <= 5)
         else if((statewire == 4'd8) && (pscore > 4'd5) && (dscore <= 4'd5)) state <= 3'd6;     // 4 -> 6 (pscore > 5 and dscore <= 5)
         else if((statewire == 4'd8) && (pscore > 4'd5) && (dscore > 4'd5)) state <= 4'd9;      // 4 -> 7 (pscore > 5 and dscore > 5)
 
-    
-	else if((statewire == 3'd5) && (dscore == 4'd7)) state <= 4'd9;							// 5 -> 7 (dscore  = 7)
+	    else if((statewire == 3'd5) && (dscore == 4'd7)) state <= 4'd9;							// 5 -> 7 (dscore  = 7)
         else if((statewire == 3'd5) && (dscore == 4'd6) && (pcard3 >= 4'd6) && (pcard3 <= 4'd7)) state <= 3'd6;    // 5 -> 6 (dscore = 6, pcard3 between 6,7)
         else if((statewire == 3'd5) && (dscore == 4'd6) && ~((pcard3 >= 4'd6) && (pcard3 <= 4'd7))) state <= 4'd9; // 5 -> 7 (dscore = 6, pcard3 not between 6,7)
         else if((statewire == 3'd5) && (dscore == 4'd5) && (pcard3 >= 4'd4) && (pcard3 <= 4'd7)) state <= 3'd6;    // 5 -> 6 (dscore = 5, pcard3 between 4,7)
