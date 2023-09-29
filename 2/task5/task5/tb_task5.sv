@@ -83,7 +83,7 @@ task cycle (input [4:0] pcard1in, pcard2in, pcard3in, dcard1in, dcard2in, dcard3
 	clkiterate;
 	force dut.dp.new_card = dcard2;      //State 4
 	clkiterate;
-				   //State 8 (wait state)   (pscore = 8, dscore = 8)
+				   //State 8 (wait state)   
 	clkiterate;
 	force dut.dp.new_card = pcard3;      //State 5  
 	clkiterate;
