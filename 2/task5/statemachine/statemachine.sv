@@ -8,15 +8,13 @@ module statemachine(input slow_clock, input resetb,
     // registers that hold the state.  You will want to review your notes from
     // CPEN 211 or equivalent if you have forgotten how to write a state machine.
 
-    //0 initial state (no cards dealt)
-    //1-4 states for dealing first 4 cards
-    //8, wait state to calculate the scores
-    
-    //1 (5) state for player getting third card
-    //1 (6) state for dealer getting third card
-    //1 (7) state for game end
-    //9 
-    //8 states 0-7 -> 3 bits
+    //0: initial state (no cards dealt)
+    //1-4: states for dealing first 4 cards
+    //8: wait state to calculate the scores
+    //5: state for player getting third card
+    //6: state for dealer getting third card
+    //9: wait state to calculate the scores
+    //7: state for game end
     reg [3:0] state;
     wire [3:0] statewire;
     assign statewire = state;
