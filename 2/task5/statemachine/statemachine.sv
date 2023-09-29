@@ -3,17 +3,19 @@ module statemachine(input slow_clock, input resetb,
                     output load_pcard1, output load_pcard2,output load_pcard3,
                     output load_dcard1, output load_dcard2, output load_dcard3,
                     output player_win_light, output dealer_win_light);
-
     // The code describing your state machine will go here.  Remember that
     // a state machine consists of next state logic, output logic, and the 
     // registers that hold the state.  You will want to review your notes from
     // CPEN 211 or equivalent if you have forgotten how to write a state machine.
 
-    //1 (0) initial state (no cards dealt)
-    //4,(1-4) states for dealing first 4 cards
+    //0 initial state (no cards dealt)
+    //1-4 states for dealing first 4 cards
+    //8, wait state to calculate the scores
+    
     //1 (5) state for player getting third card
     //1 (6) state for dealer getting third card
     //1 (7) state for game end
+    //9 
     //8 states 0-7 -> 3 bits
     reg [3:0] state;
     wire [3:0] statewire;
@@ -50,16 +52,14 @@ module statemachine(input slow_clock, input resetb,
 
         if (statewire == 3'd7 && (pscore > dscore)) {p_win,d_win} = 2'b10;
         else if (statewire == 3'd7 && (pscore < dscore)) {p_win,d_win} = 2'b01;
-	else if (statewire == 3'd7 && (pscore == dscore)) {p_win,d_win} = 2'b11;
+	    else if (statewire == 3'd7 && (pscore == dscore)) {p_win,d_win} = 2'b11;
         else {p_win,d_win} = 2'b00;
     end
 
     always_ff @(posedge slow_clock) begin
-        if(resetb == 1'd0) begin
-            state <= 3'd0;   // reset
-    end
-
-        else if(statewire < 3'd4) state <= statewire + 3'b001;  // state go from 0 -> 4
+        if(resetb == 1'd0) state <= 3'd0;   // reset
+    
+        else if(statewire < 3'd4) state <= statewire + 3'd1;  // state go from 0 -> 4
 	    else if(statewire == 3'd4) state <= 4'd8;
 
         else if((statewire == 4'd8) && ((dscore >= 4'd8) || (pscore >= 4'd8))) state <= 4'd9;  // if pscore or dscore reach >= 8, then state go from 4 -> 7 (natural)
@@ -79,7 +79,6 @@ module statemachine(input slow_clock, input resetb,
         else if((statewire == 3'd5) && (dscore <= 4'd2)) state <= 3'd6;			 // 5 -> 6 (dscore <= 2)
 
         else if(statewire == 3'd6) state <= 4'd9;		    // 6 -> 7
-
-	else if(statewire == 4'd9) state <= 3'd7;
+	    else if(statewire == 4'd9) state <= 3'd7;
     end
 endmodule
