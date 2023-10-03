@@ -127,17 +127,17 @@ task cycle (input [4:0] pcard1in, pcard2in, pcard3in, dcard1in, dcard2in, dcard3
 endtask
 
 initial begin
-$display("tb_task5 will test final LEDR output for a given set of cards \n tb_statemachine already tests for the correct number of states in a given cycle, so states 5 and 6 are included anyway since the final state is always state 7\n tb_datapath already tests HEX display functionality, so only LEDR is tested here");
-$display("tb_statemachine already tests all possible state paths, implying that any combination of 6 cards with values from 0-13 will work here\n");
-cycle(5'd2,5'd6,5'd0,5'd6,5'd2,5'd0); 
-cycle(5'd1,5'd2,5'd3,5'd4,5'd5,5'd6);
-cycle(5'd9,5'd13,5'd7,5'd4,5'd11,5'd12);
-cycle(5'd9,5'd9,5'd9,5'd8,5'd8,5'd8);
-cycle(5'd3,5'd4,5'd11,5'd0,5'd0,5'd6);
-cycle(5'd3,5'd4,5'd11,5'd0,5'd0,5'd6);
-cycle(5'd1,5'd1,5'd1,5'd1,5'd1,5'd1);
-cycle(5'd3,5'd3,5'd11,5'd13,5'd12,5'd6);
-cycle(5'd0,5'd0,5'd0,5'd0,5'd0,5'd10);
+	$display("tb_task5 will test final LEDR output for a given set of cards \n tb_statemachine already tests for the correct number of states in a given cycle, so states 5 and 6 are included anyway since the final state is always state 7\n tb_datapath already tests HEX display functionality, so only LEDR is tested here");
+	$display("tb_statemachine already tests all possible state paths, implying that any combination of 6 cards with values from 0-13 will work here\n");
+	cycle(5'd2,5'd6,5'd0,5'd6,5'd2,5'd0); 
+	cycle(5'd1,5'd2,5'd3,5'd4,5'd5,5'd6);
+	cycle(5'd9,5'd13,5'd7,5'd4,5'd11,5'd12);
+	cycle(5'd9,5'd9,5'd9,5'd8,5'd8,5'd8);
+	cycle(5'd3,5'd4,5'd11,5'd0,5'd0,5'd6);
+	cycle(5'd3,5'd4,5'd11,5'd0,5'd0,5'd6);
+	cycle(5'd1,5'd1,5'd1,5'd1,5'd1,5'd1);
+	cycle(5'd3,5'd3,5'd11,5'd13,5'd12,5'd6);
+	cycle(5'd0,5'd0,5'd0,5'd0,5'd0,5'd10);
 end
 
 
