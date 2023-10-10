@@ -6,14 +6,14 @@ module init(input logic clk, input logic rst_n,
     integer i, j;
 
     always_ff@(posedge clk) begin
-        if (rstn_n == 0'd1) rdy = 1'd1;
-        else rdy = 0'd1;
+        if (rst_n == 1'd1) rdy = 1'd1;
+        else rdy = 1'd0;
     end
 
     always_ff @(posedge (!rst_n && en)) begin
-        rdy = 0'd0;
+        rdy = 1'd0;
         wren = 1'd1;
-        for (i = 0; i < 255; i = i + 1) begin
+        for (i = 1; i < 255; i = i + 1) begin
             addr = i;
             wrdata = i;
         end
