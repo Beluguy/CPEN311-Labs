@@ -13,7 +13,7 @@ module tb_rtl_init();
     reg [7:0] addr;
 	wire [7:0] wrdata;
 
-    init dut (.clk(clk), .rstn(rst_n), .en(en), .rdy(rdy), .addr(addr), .wrdata(wrdata), .wren(wren));
+    init dut (.clk(clk), .rst_n(rst_n), .en(en), .rdy(rdy), .addr(addr), .wrdata(wrdata), .wren(wren));
 
     task clock;
 		begin
@@ -30,16 +30,16 @@ module tb_rtl_init();
 		#2;
 		rst_n = 1'b1;
 
-        $display("Now ram output with wren enable");
-        force dut.wren = 1'd1;
-        for (i = 1; i < 255; i = i + 1) begin
+        $display("Now testing wrdata output");
+        force dut.en = 1'd1;
+        for (i = 1; i < 256; i = i + 1) begin
             clock; 
-            if(dut.q != i) begin
-                $error("q = %b,", dut.q);
+            if(dut.wrdata != i) begin
+                $error("wrdata = %b,", wrdata);
                 failed++;
             end
             else begin
-                $display("Correct: ram output = %b", dut.q);
+                $display("Correct: wrdata output = %b", wrdata);
             end
         end 
     end 

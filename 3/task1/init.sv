@@ -13,7 +13,7 @@ always_ff @(posedge(clk)) begin
         if(rdy && en && !initialized) begin
 		rdy <= 1'b0;
                 wren <= 1'b1;
-                for(i=0; i<255; i = i+1) begin
+                for(i=0; i<256; i = i+1) begin
                      addr <= i;
                      wrdata <= i;
                 end   
