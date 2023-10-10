@@ -6,8 +6,10 @@ module init(input logic clk, input logic rst_n,
     s_men s(.address(addr), .clock(clk), .data(wrdata), .wren(wren), .q());
 
     always_ff @(posedge (!rst_n && en)) begin
-        for (i = 0; 0 < 255; i = i + 1) begin
-            s[i] = i;
+        wren = 1'd1;
+        for (i = 0'd8; i < 255'd8; i = i + 1'd8) begin
+            addr = i;
+            wrdata = i;
         end
     end 
 endmodule: init
