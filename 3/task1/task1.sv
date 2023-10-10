@@ -5,7 +5,9 @@ module task1(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 
     // your code here
 
-    s_mem s( /* connect ports */ );
+    s_mem s(.address(addr), .clock(CLOCK_50), .data(wrdata), .wren(wren), .q(q));
+
+    init init();
 
     // your code here
 
