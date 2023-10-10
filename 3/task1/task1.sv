@@ -5,9 +5,9 @@ module task1(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 
     // your code here
 
-    s_mem s(.address(addr), .clock(CLOCK_50), .data(wrdata), .wren(wren), .q(q));
+    s_mem s(.address(addr), .clock(CLOCK_50), .data(wrdata), .wren(wren), .q());
 
-    init init(.clk(CLOCK_50), .rst_n(KEY[3]), .en(), .rdy(), .addr(), .wrdata(), .wren());
+    init init(.clk(CLOCK_50), .rst_n(KEY[3]), .en(), .rdy(), .addr(addr), .wrdata(wrdata), .wren(wren));
 
     // your code here
 
