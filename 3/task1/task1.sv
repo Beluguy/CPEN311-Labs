@@ -12,6 +12,6 @@ module task1(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
     s_mem s(.address(addr), .clock(CLOCK_50), .data(wrdata), .wren(wren), .q(q));
     init init(.clk(CLOCK_50), .rst_n(KEY[3]), .en(en), .rdy(rdy), .addr(addr), .wrdata(wrdata), .wren(wren));
 
-    always_ff
+    //always_ff
 
 endmodule: task1
