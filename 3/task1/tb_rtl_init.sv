@@ -24,6 +24,7 @@ module tb_rtl_init();
 		rst_n = 1'd1;
 
         $display("Now testing wrdata output");
+	
         for (i = 0; i < 256; i = i + 1) begin
             if (dut.rdy == 1'd1) en = 1'd1;
             else en = 1'd0;
@@ -36,6 +37,16 @@ module tb_rtl_init();
             end
         end 
         $display("Total number of tests failed is: %d", failed);
-        $stop;
+        
+	clock;
+	clock;
+	en = 1'b1;
+	clock;
+	en = 1'b0;
+        #1;
+        rst_n = 1'd0;     //async reset
+        #1;
+        rst_n = 1'd1;
+	#1;
     end 
 endmodule: tb_rtl_init
