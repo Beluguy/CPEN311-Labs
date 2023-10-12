@@ -3,8 +3,7 @@ module init(input logic clk, input logic rst_n,
             output logic [7:0] addr, output logic [7:0] wrdata, output logic wren);
 
     integer i;
-    reg initialized;
-    reg startcyc;
+    reg initialized, startcyc;
 
     always_ff @(posedge(!rst_n)) begin
             initialized <= 1'b0;
