@@ -52,16 +52,16 @@ module tb_rtl_init();
 	 end 
         $display("Total number of tests failed is: %d", failed);
         
-	clock;
-	clock;
-	en = 1'b1;
-	clock;
-	en = 1'b0;
-        #1;
-        rst_n = 1'd0;     //async reset
-        #1;
-        rst_n = 1'd1;
-	#1;
-    $stop;
+		clock;
+		clock;
+		en = 1'b1;
+		clock;
+		en = 1'b0;
+			#1;
+			rst_n = 1'd0;     //async reset
+			#1;
+			rst_n = 1'd1;
+		#1;
+		$stop;
     end 
 endmodule: tb_rtl_init

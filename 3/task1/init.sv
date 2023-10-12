@@ -7,7 +7,7 @@ module init(input logic clk, input logic rst_n,
 
     always_ff @(posedge(!rst_n)) begin
             initialized <= 1'b0;
-        rdy <= 1'b1;
+            rdy <= 1'b1;
             wren <= 1'b0;             
             i <= 1'd0; 
         startcyc <= 1'b0; 
@@ -15,8 +15,8 @@ module init(input logic clk, input logic rst_n,
 
     always_ff @(posedge(clk)) begin
         if(en && rdy && (i == 1'd0) && !initialized) begin
-                    rdy <= 1'b0;
-                wren <= 1'b1;
+            rdy <= 1'b0;
+            wren <= 1'b1;
             startcyc <= 1'b1;
         end
         else if(startcyc && (i <= 256)) begin
@@ -36,7 +36,7 @@ module init(input logic clk, input logic rst_n,
         end
         else begin
             rdy <= 1'b1;
-                wren <= 1'b0;
+            wren <= 1'b0;
             addr <= 1'd0;
             wrdata <= 1'd0;
             i <= 0;
