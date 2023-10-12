@@ -12,14 +12,15 @@ module init(input logic clk, input logic rst_n,
         end else begin
             if (rdy && en) begin
                 rdy <= 1'd0;
-                i <= 1;
+                wrdata <= i;
+                addr <= i;
             end else begin
-                 if (i < 256) begin
+                if ((i >= 0) && (i < 256)) begin
+                    i <= i + 1;
                     rdy <= 1'd0;
                     wren <= 1'd1;
                     addr <= i;
                     wrdata <= i;
-                    i <= i + 1;
                 end else begin 
                     rdy <= 1'd0;
                     wren <= 1'd0;
@@ -29,4 +30,4 @@ module init(input logic clk, input logic rst_n,
             end
         end 
     end
-endmodule: init
+endmodule: init 
