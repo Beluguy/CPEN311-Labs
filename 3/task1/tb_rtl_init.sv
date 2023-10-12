@@ -32,7 +32,7 @@ module tb_rtl_init();
                 $error("wrdata = %d, addr = %d, they should be %d", wrdata, addr, i);
                 failed++;
             end else begin
-                $display("Correct: wrdata output = %d, %d", wrdata, i);
+                $display("Correct: wrdata output = %d", wrdata);
             end
         end 
         $display("Total number of tests failed is: %d", failed);
