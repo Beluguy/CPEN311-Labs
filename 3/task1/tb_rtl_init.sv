@@ -29,25 +29,25 @@ module tb_rtl_init();
             if (dut.rdy == 1'd1) en = 1'd1;
             else en = 1'd0;
             clock;
-	    if(i == 0) begin
-		if((dut.wrdata != 0) || (dut.addr != 0)) begin
-            	    $error("wrdata = %d, addr = %d, they should be %d", wrdata, addr, i);
-            	    failed++;
-           	 end 
-	  	  else begin
-          	      $display("Correct: wrdata output = %d", wrdata);
-          	  end
+	    	if(i == 0) begin
+				if((dut.wrdata != 0) || (dut.addr != 0)) begin
+					$error("wrdata = %d, addr = %d, they should be %d", wrdata, addr, i);
+					failed++;
+				end 
+				else begin
+					$display("Correct: wrdata output = %d", wrdata);
+				end
             end
            
-	    else if(i > 0) begin
-	  	  if((dut.wrdata != i - 1) || (dut.addr != i - 1)) begin
-            	    $error("wrdata = %d, addr = %d, they should be %d", wrdata, addr, i - 1);
-            	    failed++;
-           	 end 
-	  	  else begin
-          	      $display("Correct: wrdata output = %d", wrdata);
-          	  end
-            end
+			else if(i > 0) begin
+				if((dut.wrdata != i - 1) || (dut.addr != i - 1)) begin
+					$error("wrdata = %d, addr = %d, they should be %d", wrdata, addr, i - 1);
+					failed++;
+				end 
+				else begin
+					$display("Correct: wrdata output = %d", wrdata);
+				end
+			end
        
 	 end 
         $display("Total number of tests failed is: %d", failed);
