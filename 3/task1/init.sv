@@ -6,13 +6,12 @@ module init(input logic clk, input logic rst_n,
 
 integer i,j;
 reg initialized;
-reg startcyc;
+
 
 always_ff @(posedge(!rst_n)) begin
         initialized <= 1'b0;
 	rdy <= 1'b1;
-        wren <= 1'b0;
-	startcyc <= 1'b0;               
+        wren <= 1'b0;              
         i <= 1'd0;  
 end
 
@@ -20,7 +19,6 @@ always_ff @(posedge(clk)) begin
        if(en && rdy && (i == 1'd0) && !initialized) begin
                 rdy <= 1'b0;
 	        wren <= 1'b1;
-                startcyc <= 1'b1;          //enable wren before incrementing i for proper loading to memory (delay one clk cycle)
 		i <= i + 1;
        end
        else if((i > 0) && (i <= 256) && startcyc) begin
