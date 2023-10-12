@@ -62,5 +62,6 @@ module tb_rtl_init();
         #1;
         rst_n = 1'd1;
 	#1;
+	$stop
     end 
 endmodule: tb_rtl_init
