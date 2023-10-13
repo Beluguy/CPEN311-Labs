@@ -99,7 +99,7 @@ always @(posedge(clk), negedge(rst_n)) begin
 		addr <= i;
 		state <= state + 1'b1;
 	end
-	else if(state == 4'b1010) begin //finish writing respective values to addr's (enable wren)  (s[i] is written to mem addr j)		state <= state + 1'b1;
+	else if(state == 4'b1010) begin //finish writing respective values to addr's (enable wren)  (s[i] is written to mem addr j)		
 		state <= state + 1'b1;
 	end
 	else if(state == 4'b1011) begin //disable wren for this state
