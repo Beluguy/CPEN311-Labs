@@ -37,6 +37,7 @@ case(keyindex)
 2'd0: keyval = key0;
 2'd1: keyval = key1;
 2'd2: keyval = key2;
+default: keyval = 8'b00000000;
 endcase
 
 case(state)
@@ -72,7 +73,6 @@ always @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 4'b0011) begin  //load s_i
 		s_i <= rddata;
 		state <= state + 1'b1;
-		
 	end
 	else if(state == 4'b0100) begin     //calculate j
 		//j <= (j + s_i + key[i % keylength]) % 9'd256;

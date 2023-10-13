@@ -55,10 +55,10 @@ initial begin
 	clock;
 	clock;
 	
-	KEY[0] = 1'b0;
+	KEY[1] = 1'b0;
 	for(i = 0; i < 256; i = i + 1) begin
 		clock;
-		KEY[0] = 1'b1;
+		KEY[1] = 1'b1;
 		clock;
 		clock;
 		clock;

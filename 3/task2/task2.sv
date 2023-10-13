@@ -18,6 +18,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 	reg [2:0]test_en;
 	wire [2:0] test_en_wire;
 	assign test_en_wire = test_en;
+	assign LEDR[2:0] = test_en_wire;
 	
 	reg [3:0] state;
 
@@ -43,6 +44,11 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 	assign wrdata = wrdata_reg;
 	assign addr = addr_reg;
 
+	wire button0;
+	wire button1;
+	assign button0 = ~KEY[0];
+	assign button1 = ~KEY[1];
+
 
 	s_mem s(.address(addr),
 		.clock(CLOCK_50),
@@ -52,7 +58,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 
 	init init(.clk(CLOCK_50), 
 		.rst_n(KEY[3]), 
-		.en(test_en_wire[0]), 
+		.en(button0), 
 		.rdy(rdy_wire[0]), 
 		.addr(init_addr), 
 		.wrdata(init_wrdata), 
@@ -60,7 +66,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 
 	ksa ksa(.clk(CLOCK_50),
 		.rst_n(KEY[3]),
-		.en(test_en_wire[1]),
+		.en(button1),
 		.rdy(rdy_wire[1]),
 		.key(key_val_wire),
 		.addr(ksa_addr),
@@ -95,10 +101,10 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 		if(!KEY[3]) begin
 			state <= 4'b0000;
 		end
-		else if((state == 4'b0000) && (rdy_wire[0] == 1'b1) && (test_en_wire == 3'b001)) begin
+		else if((state == 4'b0000) && (rdy_wire[0] == 1'b1) && (!KEY[0])) begin
 			state <= 4'b0001;
 		end
-		else if((state == 4'b0001) && (rdy_wire[1:0] == 2'b11) && (test_en_wire == 3'b010)) begin
+		else if((state == 4'b0001) && (rdy_wire[1:0] == 2'b11) && (!KEY[1])) begin
 			state <= 4'b0010;
 		end
 		else if((state == 4'b0010) && (rdy_wire [1:0] == 2'b11)) begin
