@@ -12,15 +12,14 @@ always_comb begin
 	wrdata = i;
 end
 
-always_ff @(posedge(!rst_n)) begin
-        initialized <= 1'b0;
-	rdy <= 1'b1;
-        wren <= 1'b0;             
-        i <= 1'd0;  
-end
-
-always_ff @(posedge(clk)) begin
-	if(en && rdy && !initialized) begin
+always_ff @(posedge(clk), negedge(rst_n)) begin
+	if(!rst_n) begin
+		initialized <= 1'b0;
+		rdy <= 1'b1;
+       		wren <= 1'b0;             
+       		i <= 1'd0; 
+	end
+	else if(en && rdy && !initialized) begin
 		rdy <= 1'b0;
 		wren <= 1'b1;
 	end
