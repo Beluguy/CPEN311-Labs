@@ -5,7 +5,7 @@ module tb_rtl_init();
 
     reg clk, rst_n, en, rdy, wren;
     reg [7:0] addr;
-	wire [7:0] wrdata;
+    wire [7:0] wrdata;
 	
 
     init dut (.clk(clk), .rst_n(rst_n), .en(en), .rdy(rdy), .addr(addr), .wrdata(wrdata), .wren(wren));
@@ -21,7 +21,7 @@ endtask
 
 initial begin
 	rst_n = 1'b0;
-	#1;
+	#1;       
 	rst_n = 1'b1;
 	#1;
 	clock;

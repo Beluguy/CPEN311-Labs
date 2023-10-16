@@ -9,7 +9,7 @@ reg initialized;
 
 always_comb begin
 	addr = i;
-	wrdata = i;
+	wrdata = i; 
 end
 
 always_ff @(posedge(clk), negedge(rst_n)) begin
