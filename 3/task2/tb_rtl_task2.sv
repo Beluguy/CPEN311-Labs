@@ -56,7 +56,7 @@ initial begin
 	clock;
 	
 	KEY[1] = 1'b0;
-	for(i = 0; i < 256; i = i + 1) begin
+	for(i = 0; i < 256; i = i + 1) begin   //after 256 clk cycles, init is done, after 
 		clock;
 		KEY[1] = 1'b1;
 		clock;

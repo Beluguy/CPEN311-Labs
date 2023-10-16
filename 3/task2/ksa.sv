@@ -23,6 +23,8 @@ assign key2 = key[7:0];
 assign key1 = key[15:8];
 assign key0 = key[23:16];
 
+reg initialized;
+
 integer keyindex;
 assign keyindex = i % 3;
 
@@ -57,9 +59,10 @@ always @(posedge(clk), negedge(rst_n)) begin
 		i <= 1'd0;
 		j <= 1'd0;
 		rdy <= 1'b1;
+		initialized <= 1'b0;
 		state <= 4'b0000;
 	end
-	else if(en && rdy && (state == 4'b0000)) begin
+	else if(en && rdy && (state == 4'b0000) && !initialized) begin
 		state <= state + 1'b1;
 		rdy <= 1'b0;
 	end
@@ -97,7 +100,7 @@ always @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 4'b1001) begin //load initial s[j] to address i (enable wren)   (s[j] is written to mem addr i)
 		wrdata <= s_j;
 		addr <= i;
-		state <= state + 1'b1;
+		state <= state + 1'b1; 
 	end
 	else if(state == 4'b1010) begin //finish writing respective values to addr's (enable wren)  (s[i] is written to mem addr j)		
 		state <= state + 1'b1;
@@ -107,6 +110,7 @@ always @(posedge(clk), negedge(rst_n)) begin
 			state <= 4'b0000; //return to state 0 (standby) if i has reached 255
 			rdy <= 1'b1;
 			i <= 1'd0;
+			initialized <= 1'b1;
 		end
 		else begin
 			state <= 4'b0001; //return to state 1 and continue loop if i < 255
