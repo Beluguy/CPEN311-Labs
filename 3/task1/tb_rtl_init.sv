@@ -55,20 +55,32 @@ module tb_rtl_init();
 		end
 		
 		clock;
-		clock;
 		en = 1'b1;
 		clock;
 		en = 1'b0;
 		clock;
+
+		if(rdy == 1'b1) $display("rdy is %d after initialized", rdy);
+		else begin
+			$display("rdy is %d after initialized", rdy);
+			failed = failed + 1;	
+		end
+
 		rst_n = 1'b0;
 		#1;
 		rst_n = 1'b1;
 		#1;
 		clock;
-		clock;
 		en = 1'b1;
 		clock;
 		en = 1'b0;
+		clock;
+		if(rdy == 1'b0) $display("rdy is %d after reset", rdy);
+		else begin
+			$display("rdy is %d after reset", rdy);
+			failed = failed + 1;	
+		end
+
 		$display("Tests failed: %d", failed);
 		$stop;
 	end

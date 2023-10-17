@@ -26,8 +26,6 @@ module task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 	wire ct_wren;
 	assign ct_wren = 1'b0;
 	
-	// your code here
-
 		ct_mem ct(.address(ct_addr),
 			.clock(CLOCK_50),
 			.data(ct_wrdata),
@@ -51,7 +49,6 @@ module task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 			.pt_rddata(pt_rddata),
 			.pt_wrdata(pt_wrdata),
 			.pt_wren(pt_wren));
-
 
 endmodule: task3
 
