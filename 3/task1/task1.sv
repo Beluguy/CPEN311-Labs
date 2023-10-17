@@ -14,12 +14,9 @@ module task1(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 	assign test_en_wire = test_en;
     
 	always_comb begin
-	test_en = ~KEY[0]; // button press en
+	    test_en = ~KEY[0]; // button press en
 	end
 
     s_mem s(.address(addr), .clock(CLOCK_50), .data(wrdata), .wren(wren), .q(LEDR[7:0]));
     init init(.clk(CLOCK_50), .rst_n(KEY[3]), .en(test_en_wire), .rdy(LEDR[9]), .addr(addr), .wrdata(wrdata), .wren(wren));
-
-    
-
 endmodule: task1
