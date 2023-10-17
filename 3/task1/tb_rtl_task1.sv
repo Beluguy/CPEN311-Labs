@@ -60,7 +60,7 @@ module tb_rtl_task1();
 			$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 0, 0, 0", dut.init.addr, dut.init.wrdata, dut.init.wren);
 			failed = failed + 1;
 		end
-		KEY[0] = 1'b0;
+		KEY[0] = 1'b0; //active low
 		
 		for(i = 0; i < 256; i = i + 1) begin
 			clock;
