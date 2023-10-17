@@ -7,7 +7,6 @@ module tb_rtl_init();
     reg [7:0] addr;
     wire [7:0] wrdata;
 	
-
     init dut (.clk(clk), .rst_n(rst_n), .en(en), .rdy(rdy), .addr(addr), .wrdata(wrdata), .wren(wren));
 
 	task clock;
@@ -16,7 +15,7 @@ module tb_rtl_init();
 			#1;
 			clk = 1'b0;
 			#1;
-			end
+		end
 	endtask
 
 	initial begin
@@ -29,7 +28,7 @@ module tb_rtl_init();
 			$display("Correct output for addr, wrdata, wren: %d %d %b", addr, wrdata, wren);
 		end
 		else begin
-			$display("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 0, 0, 0", addr, wrdata, wren);
+			$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 0, 0, 0", addr, wrdata, wren);
 			failed = failed + 1;
 		end
 		en = 1'b1;
@@ -40,7 +39,7 @@ module tb_rtl_init();
 				$display("Correct output for addr, wrdata, wren: %d %d %b", addr, wrdata, wren);
 			end
 			else begin
-				$display("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : %d, %d, 1", addr, wrdata, wren, i, i);
+				$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : %d, %d, 1", addr, wrdata, wren, i, i);
 			failed = failed + 1;
 			end
 			en = 1'b0;
@@ -50,7 +49,7 @@ module tb_rtl_init();
 			$display("Correct output for addr, wrdata, wren: %d %d %b", addr, wrdata, wren);
 		end
 		else begin
-			$display("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 255, 255, 0", addr, wrdata, wren);
+			$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 255, 255, 0", addr, wrdata, wren);
 			failed = failed + 1;	
 		end
 		
@@ -60,9 +59,9 @@ module tb_rtl_init();
 		en = 1'b0;
 		clock;
 
-		if(rdy == 1'b1) $display("rdy is %d after initialized", rdy);
+		if(rdy == 1'b1) $display("Correct: rdy is %d after initialized", rdy);
 		else begin
-			$display("rdy is %d after initialized", rdy);
+			$error("rdy is %d after initialized", rdy);
 			failed = failed + 1;	
 		end
 
@@ -75,14 +74,14 @@ module tb_rtl_init();
 		clock;
 		en = 1'b0;
 		clock;
-		if(rdy == 1'b0) $display("rdy is %d after reset", rdy);
+
+		if(rdy == 1'b0) $display("Correct: rdy is %d after reset", rdy);
 		else begin
-			$display("rdy is %d after reset", rdy);
+			$error("rdy is %d after reset", rdy);
 			failed = failed + 1;	
 		end
 
 		$display("Tests failed: %d", failed);
 		$stop;
 	end
-
 endmodule: tb_rtl_init
