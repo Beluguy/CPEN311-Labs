@@ -1,68 +1,66 @@
 `timescale 1 ps / 1 ps
 module tb_rtl_crack2();
 
-integer failed = 0;
-integer i = 0;
+	integer failed = 0;
+	integer i = 0;
 
-reg clk;
-reg rst_n;
-reg en;
-wire rdy;
-wire [23:0] key;
-wire key_valid;
-wire [7:0] ct_addr;
-reg [7:0] ct_rddata;
-reg even_odd;
-wire [7:0] finish_pt;
-reg stop;
+	reg clk;
+	reg rst_n;
+	reg en;
+	wire rdy;
+	wire [23:0] key;
+	wire key_valid;
+	wire [7:0] ct_addr;
+	reg [7:0] ct_rddata;
+	reg even_odd;
+	wire [7:0] finish_pt;
+	reg stop;
 
-crack2 dut(.clk(clk),
-	.rst_n(rst_n),
-	.en(en),
-	.rdy(rdy),
-	.key(key),
-	.key_valid(key_valid),
-	.ct_addr(ct_addr),
-	.ct_rddata(ct_rddata),
-	.even_odd(even_odd),
-	.finish_pt(finish_pt),
-	.stop(stop));
+	crack2 dut(.clk(clk),
+		.rst_n(rst_n),
+		.en(en),
+		.rdy(rdy),
+		.key(key),
+		.key_valid(key_valid),
+		.ct_addr(ct_addr),
+		.ct_rddata(ct_rddata),
+		.even_odd(even_odd),
+		.finish_pt(finish_pt),
+		.stop(stop));
 
-task clock;
-	begin
-		clk = 1'b1;
+	task clock;
+		begin
+			clk = 1'b1;
+			#1;
+			clk = 1'b0;
+			#1;
+		end
+	endtask
+
+	integer count;
+
+	initial begin
+		rst_n = 1'b0;
+		count = 0;
+		even_odd = 1'b0;
 		#1;
-		clk = 1'b0;
+		rst_n = 1'b1;
 		#1;
-	end
-endtask
-
-integer count;
-
-initial begin
-	rst_n = 1'b0;
-	count = 0;
-	even_odd = 1'b0;
-	#1;
-	rst_n = 1'b1;
-	#1;
-	clock;
-	clock;
-	clock;
-	clock;
-	#1;
-	en = 1'b1;
-	#1;
-	clock;
-	#1;
-	en = 1'b0;
-	#1;
-	clock;
-	for(i = 0; i < 20000; i = i + 1) begin //3075
 		clock;
+		clock;
+		clock;
+		clock;
+		#1;
+		en = 1'b1;
+		#1;
+		clock;
+		#1;
+		en = 1'b0;
+		#1;
+		clock;
+		for(i = 0; i < 20000; i = i + 1) begin //3075
+			clock;
+		end
 	end
-end
-
-
 
 endmodule: tb_rtl_crack2

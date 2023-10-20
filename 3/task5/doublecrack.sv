@@ -3,8 +3,6 @@ module doublecrack(input logic clk, input logic rst_n,
              output logic [23:0] key, output logic key_valid,
              output logic [7:0] ct_addr, input logic [7:0] ct_rddata);
 
-    // your code here
-
 	integer state;
 	
 	reg even_reg = 1'b0;
