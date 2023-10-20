@@ -7,12 +7,11 @@ module prga(input logic clk, input logic rst_n,
 
 	//i = 0, j = 0
 	//for k = 0 to message_length-1:
-	//i = (i+1) mod 256
-	//j = (j+s[i]) mod 256
-	//swap values of s[i] and s[j]
-	//pad[k] = s[(s[i]+s[j]) mod 256]
-	//for k = 0 to message_length-1:
-	//plaintext[k] = pad[k] xor ciphertext[k] -- xor each byte
+		//i = (i+1) mod 256
+		//j = (j+s[i]) mod 256
+		//swap values of s[i] and s[j]
+		//pad[k] = s[(s[i]+s[j]) mod 256]
+		//plaintext[k] = pad[k] xor ciphertext[k] -- xor each byte
 
 	//ct[0] = length prefix
 	reg initialized;
@@ -50,18 +49,20 @@ module prga(input logic clk, input logic rst_n,
 			9: s_wrdata = s_j;
 			default: s_wrdata = 8'b0;
 		endcase
-			
+	
 		case(state)
 			8: s_wren = 1'b1;
 			9: s_wren = 1'b1;
 			default: s_wren = 1'b0;
 		endcase
+
 	// ct module
 		case(state)
 			1: ct_addr = k;   //read
 			12: ct_addr = k + 1; //read
 			default: ct_addr = 8'b0;
 		endcase
+		
 	// pt module
 		case(state)
 			2: pt_addr = 0; //write
@@ -80,9 +81,7 @@ module prga(input logic clk, input logic rst_n,
 			14: pt_wren = 1'b1;
 			default: pt_wren = 1'b0;
 		endcase
-
 	end
-
 
 	always_ff @(posedge(clk), negedge(rst_n)) begin
 		if(!rst_n) begin
@@ -160,5 +159,4 @@ module prga(input logic clk, input logic rst_n,
 			end
 		end
 	end
-
 endmodule: prga

@@ -41,6 +41,7 @@ module tb_rtl_ksa();
 		#1;
 		clock;
 
+		//state 0
 		if (dut.state == 0 && wren == 0 && rdy == 1) 
 			$display("Correct output for state: %d, wren: %b, rdy: %b", dut.state, wren, rdy);
 		else begin

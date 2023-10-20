@@ -26,29 +26,28 @@ module task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 	wire ct_wren;
 	assign ct_wren = 1'b0;
 	
-		ct_mem ct(.address(ct_addr),
-			.clock(CLOCK_50),
-			.data(ct_wrdata),
-			.wren(ct_wren),
-			.q(ct_rddata));
+	ct_mem ct(.address(ct_addr),
+		.clock(CLOCK_50),
+		.data(ct_wrdata),
+		.wren(ct_wren),
+		.q(ct_rddata));
 
-		pt_mem pt(.address(pt_addr),
-			.clock(CLOCK_50),
-			.data(pt_wrdata),
-			.wren(pt_wren),
-			.q(pt_rddata));
+	pt_mem pt(.address(pt_addr),
+		.clock(CLOCK_50),
+		.data(pt_wrdata),
+		.wren(pt_wren),
+		.q(pt_rddata));
 
-		arc4 a4(.clk(CLOCK_50),
-			.rst_n(rst_n),
-			.en(en),
-			.rdy(rdy),
-			.key(key),
-			.ct_addr(ct_addr),
-			.ct_rddata(ct_rddata),
-			.pt_addr(pt_addr),
-			.pt_rddata(pt_rddata),
-			.pt_wrdata(pt_wrdata),
-			.pt_wren(pt_wren));
-
+	arc4 a4(.clk(CLOCK_50),
+		.rst_n(rst_n),
+		.en(en),
+		.rdy(rdy),
+		.key(key),
+		.ct_addr(ct_addr),
+		.ct_rddata(ct_rddata),
+		.pt_addr(pt_addr),
+		.pt_rddata(pt_rddata),
+		.pt_wrdata(pt_wrdata),
+		.pt_wren(pt_wren));
 endmodule: task3
 

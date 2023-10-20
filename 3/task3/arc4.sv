@@ -47,49 +47,49 @@ module arc4(input logic clk, input logic rst_n,
 	assign prga_en = prga_en_reg;
 
 
-		s_mem s(.address(s_addr),
-			.clock(clk),
-			.data(s_wrdata),
-			.wren(s_wren),
-			.q(s_rddata));
+	s_mem s(.address(s_addr),
+		.clock(clk),
+		.data(s_wrdata),
+		.wren(s_wren),
+		.q(s_rddata));
 
-		init i(.clk(clk), 
-			.rst_n(rst_n), 
-			.en(en), 
-			.rdy(init_done),
-	
-			.addr(init_s_addr),      //s module
-			.wrdata(init_s_wrdata), 
-			.wren(init_s_wren));
+	init i(.clk(clk), 
+		.rst_n(rst_n), 
+		.en(en), 
+		.rdy(init_done),
 
-		ksa k(.clk(clk),
-			.rst_n(rst_n),
-			.en(ksa_en),
-			.rdy(ksa_done),
-			.key(key),
+		.addr(init_s_addr),      //s module
+		.wrdata(init_s_wrdata), 
+		.wren(init_s_wren));
 
-			.addr(ksa_s_addr),       //s module
-			.rddata(s_rddata),
-			.wrdata(ksa_s_wrdata),
-			.wren(ksa_s_wren));
+	ksa k(.clk(clk),
+		.rst_n(rst_n),
+		.en(ksa_en),
+		.rdy(ksa_done),
+		.key(key),
 
-		prga p(.clk(clk),
-			.rst_n(rst_n),
-			.en(prga_en),
-			.rdy(prga_done),
-			.key(key),
+		.addr(ksa_s_addr),       //s module
+		.rddata(s_rddata),
+		.wrdata(ksa_s_wrdata),
+		.wren(ksa_s_wren));
 
-			.s_addr(prga_s_addr),      //s module
-			.s_rddata(s_rddata),
-			.s_wrdata(prga_s_wrdata),
-			.s_wren(prga_s_wren),
+	prga p(.clk(clk),
+		.rst_n(rst_n),
+		.en(prga_en),
+		.rdy(prga_done),
+		.key(key),
 
-			.ct_addr(ct_addr),
-			.ct_rddata(ct_rddata),
-			.pt_addr(pt_addr),
-			.pt_rddata(pt_rddata),
-			.pt_wrdata(pt_wrdata),
-			.pt_wren(pt_wren));
+		.s_addr(prga_s_addr),      //s module
+		.s_rddata(s_rddata),
+		.s_wrdata(prga_s_wrdata),
+		.s_wren(prga_s_wren),
+
+		.ct_addr(ct_addr),
+		.ct_rddata(ct_rddata),
+		.pt_addr(pt_addr),
+		.pt_rddata(pt_rddata),
+		.pt_wrdata(pt_wrdata),
+		.pt_wren(pt_wren));
 
 	always_comb begin
 		case({init_started,init_done})
@@ -131,5 +131,4 @@ module arc4(input logic clk, input logic rst_n,
 				state <= state + 1;
 			end
 	end
-
 endmodule: arc4
