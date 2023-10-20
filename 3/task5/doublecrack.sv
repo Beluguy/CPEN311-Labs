@@ -117,6 +117,7 @@ module doublecrack(input logic clk, input logic rst_n,
 		endcase
 		
 		case(state)
+			2: {finish_pt,finish_pt_wren} = {9'b000000001}; 
 			6: {finish_pt,finish_pt_wren} = {finish_pt_even, 1'b1};
 			7: {finish_pt,finish_pt_wren} = {finish_pt_odd, 1'b1};
 			default: {finish_pt,finish_pt_wren} = 9'b0;
@@ -154,10 +155,12 @@ module doublecrack(input logic clk, input logic rst_n,
 		end
 		else if(state == 2) begin                        //copy CT to second CT memory inside doublecrack
 			if(ct_copy_count < 256) begin
-				ct_copy_count = ct_copy_count +1;
+				ct_copy_count <= ct_copy_count + 1;
+				finish_pt_count <= finish_pt_count + 1;   //reset PT memory for every run
 			end
 			else begin
 				state <= state + 1;
+				finish_pt_count <= 0;
 			end
 		end
 		else if(state == 3) begin             //start c1 and c2
@@ -180,7 +183,7 @@ module doublecrack(input logic clk, input logic rst_n,
 			end
 		end
 		else if((state == 6) || (state == 7)) begin
-			if(finish_pt_count < 255) begin
+			if(finish_pt_count < 256) begin
 				finish_pt_count <= finish_pt_count + 1;
 			end
 			else begin
@@ -191,5 +194,8 @@ module doublecrack(input logic clk, input logic rst_n,
 
 		
 	end
+
+    
+    // your code here
 
 endmodule: doublecrack
