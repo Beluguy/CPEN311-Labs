@@ -75,10 +75,10 @@ module tb_rtl_ksa();
 			clock;
 			//state 3
 			if(dut.state == 3 && wren == 0 && rdy == 0) begin
-				$display("Correct output for state: %d, wren: %d, rdy: %d, s_i: %d", dut.state, wren, rdy, dut.s_i);
+				$display("Correct output for state: %d, wren: %d, rdy: %d, s_i: %d", dut.state, wren, rdy);
 			end
 			else begin
-				$error("Incorrect output for state: %d, wren: %d, rdy: %d, s_i: %d", dut.state, wren, rdy, dut.s_i);
+				$error("Incorrect output for state: %d, wren: %d, rdy: %d, s_i: %d", dut.state, wren, rdy);
 			failed = failed + 1;
 			end
 
@@ -94,10 +94,10 @@ module tb_rtl_ksa();
 			clock;
 			//state 5
 			if(dut.state == 5 && wren == 0 && rdy == 0) begin
-				$display("Correct output for state: %d, wren: %d, rdy: %d, addr: %d", dut.state, wren, rdy, addr);
+				$display("Correct output for state: %d, wren: %d, rdy: %d, addr: %d", dut.state, wren, rdy);
 			end
 			else begin
-				$error("Incorrect output for state: %d, wren: %d, rdy: %d, addr: %d", dut.state, wren, rdy, addr);
+				$error("Incorrect output for state: %d, wren: %d, rdy: %d, addr: %d", dut.state, wren, rdy);
 			failed = failed + 1;
 			end
 
@@ -115,10 +115,10 @@ module tb_rtl_ksa();
 			clock;
 			//state 7
 			if(dut.state == 7 && wren == 0 && rdy == 0) begin
-				$display("Correct output for state: %d, wren: %d, rdy: %d, s_j: %d", dut.state, wren, rdy, dut.s_j);
+				$display("Correct output for state: %d, wren: %d, rdy: %d, s_j: %d", dut.state, wren, rdy);
 			end
 			else begin
-				$error("Incorrect output for state: %d, wren: %d, rdy: %d, s_j: %d", dut.state, wren, rdy, dut.s_j);
+				$error("Incorrect output for state: %d, wren: %d, rdy: %d, s_j: %d", dut.state, wren, rdy);
 			failed = failed + 1;
 			end
 

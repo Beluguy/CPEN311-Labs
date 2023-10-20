@@ -6,12 +6,6 @@ module tb_rtl_task1();
 	reg CLOCK_50;
 	reg [3:0] KEY;
 	reg [9:0] SW;
-	wire [6:0] HEX0;
-	wire [6:0] HEX1;
-	wire [6:0] HEX2;
-	wire [6:0] HEX3;
-	wire [6:0] HEX4;
-	wire [6:0] HEX5;
 	wire [9:0] LEDR;
 
 	//module task1(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
@@ -22,12 +16,12 @@ module tb_rtl_task1();
 	task1 dut(.CLOCK_50(CLOCK_50),
 		.KEY(KEY),   //KEY[3] rst_n, KEY[0] en
 		.SW(SW),
-		.HEX0(HEX0),
-		.HEX1(HEX1),
-		.HEX2(HEX2),
-		.HEX3(HEX3),
-		.HEX4(HEX4),
-		.HEX5(HEX5),
+		.HEX0(),
+		.HEX1(),
+		.HEX2(),
+		.HEX3(),
+		.HEX4(),
+		.HEX5(),
 		.LEDR(LEDR)); //LEDR[0] rdy
 
 	task clock;
@@ -60,7 +54,7 @@ module tb_rtl_task1();
 			$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 0, 0, 0", dut.init.addr, dut.init.wrdata, dut.init.wren);
 			failed = failed + 1;
 		end
-		KEY[0] = 1'b0; //active low
+		KEY[0] = 1'b0; //active low enable
 		
 		for(i = 0; i < 256; i = i + 1) begin
 			clock;
