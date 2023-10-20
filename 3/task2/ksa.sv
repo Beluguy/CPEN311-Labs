@@ -3,8 +3,6 @@ module ksa(input logic clk, input logic rst_n,
            input logic [23:0] key,
            output logic [7:0] addr, input logic [7:0] rddata, output logic [7:0] wrdata, output logic wren);
 	// example decryption key from PDF: h00 03 3c -> b00000000 b00000011 b00111100
-    // your code here                              
-
 	//FIX KEYLENGTH
 
 	integer i;
@@ -12,7 +10,6 @@ module ksa(input logic clk, input logic rst_n,
 	reg [3:0] state;
 	reg [7:0] s_i;
 	reg [7:0] s_j;
-
 	reg [7:0] keyval;
 
 	wire [7:0] key0;
@@ -32,10 +29,10 @@ module ksa(input logic clk, input logic rst_n,
 
 	always_comb begin
 		case(keyindex)
-		2'd0: keyval = key0;
-		2'd1: keyval = key1;
-		2'd2: keyval = key2;
-		default: keyval = 8'b00000000;
+			2'd0: keyval = key0;
+			2'd1: keyval = key1;
+			2'd2: keyval = key2;
+			default: keyval = 8'b00000000;
 		endcase
 
 		case(state)
@@ -52,63 +49,61 @@ module ksa(input logic clk, input logic rst_n,
 			j <= 1'd0;
 			rdy <= 1'b1;
 			initialized <= 1'b0;
-			state <= 4'b0000;
+			state <= 4'd0;
 		end
-		else if(en && rdy && (state == 4'b0000) && !initialized) begin
+		else if(en && rdy && (state == 4'd0) && !initialized) begin
 			state <= state + 1'b1;
 			rdy <= 1'b0;
 		end
-		else if(state == 4'b0001) begin   //load addr i
+		else if(state == 4'd1) begin  //load addr i
 			addr <= i;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b0010) begin //load rddata
+		else if(state == 4'd2) begin  //load rddata
 			state <= state + 1'b1;
 		end 
-		else if(state == 4'b0011) begin  //load s_i
+		else if(state == 4'd3) begin  //load s_i
 			s_i <= rddata;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b0100) begin     //calculate j
-			//j <= (j + s_i + key[i % keylength]) % 9'd256;
+		else if(state == 4'd4) begin  //calculate j
 			j <= (j + s_i + keyval) % 9'd256;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b0101) begin  //load addr j
+		else if(state == 4'd5) begin  //load addr j
 			addr <= j;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b0110) begin // load rddata
+		else if(state == 4'd6) begin  // load rddata
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b0111) begin // load s_j
+		else if(state == 4'd7) begin  // load s_j
 			s_j <= rddata;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b1000) begin   //load initial s[i] to address j (enable wren for this state)
+		else if(state == 4'd8) begin   //load initial s[i] to address j (enable wren for this state)
 			wrdata <= s_i;
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b1001) begin //load initial s[j] to address i (enable wren)   (s[j] is written to mem addr i)
+		else if(state == 4'd9) begin  //load initial s[j] to address i (enable wren)   (s[j] is written to mem addr i)
 			wrdata <= s_j;
 			addr <= i;
 			state <= state + 1'b1; 
 		end
-		else if(state == 4'b1010) begin //finish writing respective values to addr's (enable wren)  (s[i] is written to mem addr j)		
+		else if(state == 4'd10) begin  //finish writing respective values to addr's (enable wren)  (s[i] is written to mem addr j)		
 			state <= state + 1'b1;
 		end
-		else if(state == 4'b1011) begin //disable wren for this state
+		else if(state == 4'd11) begin //disable wren for this state
 			if(i == 255) begin
-				state <= 4'b0000; //return to state 0 (standby) if i has reached 255
+				state <= 4'd0; //return to state 0 (standby) if i has reached 255
 				rdy <= 1'b1;
 				i <= 1'd0;
 				initialized <= 1'b1;
 			end
 			else begin
-				state <= 4'b0001; //return to state 1 and continue loop if i < 255
+				state <= 4'd1; //return to state 1 and continue loop if i < 255
 				i <= i + 1;
 			end
 		end
 	end
-
 endmodule: ksa

@@ -14,8 +14,8 @@ module init(input logic clk, input logic rst_n,
         if(!rst_n) begin
             initialized <= 1'b0;
             rdy <= 1'b1;
-                wren <= 1'b0;             
-                i <= 1'd0; 
+            wren <= 1'b0;             
+            i <= 1'd0; 
         end else if(en && rdy && !initialized) begin
             rdy <= 1'b0;
             wren <= 1'b1;

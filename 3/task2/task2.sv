@@ -3,7 +3,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
              output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5,
              output logic [9:0] LEDR);
 
-    	wire en;
+    wire en;
 	wire rdy;
 	wire wren;
 	wire [7:0] addr;
@@ -96,7 +96,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 			default: addr_reg = 8'b00000000;
 		endcase
 	end
-
+	
 	always @(posedge(CLOCK_50), negedge(KEY[3])) begin
 		if(!KEY[3]) begin
 			state <= 4'b0000;
@@ -111,5 +111,4 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 			state <= 4'b0011;
 		end
 	end
-
 endmodule: task2

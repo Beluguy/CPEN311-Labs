@@ -192,7 +192,4 @@ module doublecrack(input logic clk, input logic rst_n,
 		
 	end
 
-    
-    // your code here
-
 endmodule: doublecrack

@@ -24,11 +24,11 @@ module tb_rtl_init();
 		rst_n = 1'b1;
 		#1;
 		clock;
-		if((addr == 0)&&(wrdata == 0)&&(wren == 0)) begin
-			$display("Correct output for addr, wrdata, wren: %d %d %b", addr, wrdata, wren);
+		if((addr == 0)&&(wrdata == 0)&&(wren == 0)&&(rdy == 1)) begin
+			$display("Correct output for addr, wrdata, wren, rdy: %d %d %b %b", addr, wrdata, wren, rdy);
 		end
 		else begin
-			$error("Incorrect output for addr, wrdata, wren: %d %d %b. Expected output : 0, 0, 0", addr, wrdata, wren);
+			$error("Incorrect output for addr, wrdata, wren, rdy: %d %d %b %b. Expected output : 0, 0, 0", addr, wrdata, wren, rdy);
 			failed = failed + 1;
 		end
 		en = 1'b1;
@@ -75,7 +75,7 @@ module tb_rtl_init();
 		en = 1'b0;
 		clock;
 
-		if(rdy == 1'b0) $display("Correct: rdy is %d after reset", rdy);
+		if(rdy == 1'b1) $display("Correct: rdy is %d after reset", rdy);
 		else begin
 			$error("rdy is %d after reset", rdy);
 			failed = failed + 1;	
