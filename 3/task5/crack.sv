@@ -119,13 +119,22 @@ always_comb begin
 end
 
 always_ff @(posedge(clk), negedge(rst_n)) begin
-		if(!rst_n || stop) begin
+		if(!rst_n) begin
 			state <= 0;
 			count <= 0;
 			prga_count <= 0;
 			current_key <= even_odd;   //start with key 0 (even) or key 1 (odd)
 			pt_rst_count <= 0;
 			pt_rd_count <= 0;
+		end
+		else if(stop) begin
+			state <= 0;
+			count <= 0;
+			prga_count <= 0;
+			current_key <= even_odd;   //start with key 0 (even) or key 1 (odd)
+			pt_rst_count <= 0;
+			pt_rd_count <= 0;
+
 		end
 		else if((state == 0) && en) begin
 			state <= 8;
