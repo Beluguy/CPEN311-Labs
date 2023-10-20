@@ -42,7 +42,7 @@ initial begin
 	#1;
 	KEY[3] = 1'b1;
 				   
-	SW[9:0] = 10'b0000000000;         //keys -> test1:24 (even)  test2:1 (odd)   test3:7 (odd)
+	SW[9:0] = 10'b0000000000;         //keys -> test1:24 (even)  test2:1 (odd)   test3:7 (odd)     Test 4 = 18 sec, Test 5 = ~7.3 min
 	$readmemh("C:/Users/bryan/Downloads/CPEN311/github/CPEN311-Labs/3/task5/test1.memh",dut.ct.altsyncram_component.m_default.altsyncram_inst.mem_data);
 	#1;															//tests 1-3 (test 4 has a very big key)
 	clock;
