@@ -54,7 +54,7 @@ module tb_rtl_init();
 		end
 		
 		clock;
-		en = 1'b1;
+		en = 1'b1; //press enable
 		clock;
 		en = 1'b0;
 		clock;
@@ -65,19 +65,19 @@ module tb_rtl_init();
 			failed = failed + 1;	
 		end
 
-		rst_n = 1'b0;
+		rst_n = 1'b0; // press reset
 		#1;
 		rst_n = 1'b1;
 		#1;
 		clock;
-		en = 1'b1;
+		en = 1'b1; //press enable
 		clock;
 		en = 1'b0;
 		clock;
 
-		if(rdy == 1'b1) $display("Correct: rdy is %d after reset", rdy);
+		if(rdy == 1'b0) $display("Correct: rdy is %d after reset and enable", rdy);
 		else begin
-			$error("rdy is %d after reset", rdy);
+			$error("rdy is %d after reset and enable", rdy);
 			failed = failed + 1;	
 		end
 
