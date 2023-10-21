@@ -41,24 +41,61 @@ module tb_rtl_arc4();
 
 
 	initial begin
-		rst_n = 1'b0;
+		rst_n = 1'b0; //press reset
 		#1;       
 		rst_n = 1'b1;
-		force dut.p.ct_length = 7'd100;
-		key = 10'b1100111100;
 		#1;
 		clock;
+		en = 1'b1; //press enable
 		clock;
+		en = 1'b0;
 		clock;
-		#1;
-		en = 1'b1;
-		#1;
-		clock;
-		for(i = 0; i < 3073; i = i + 1) begin  //after 256 clk cycles init is done, after 3072 cycles ksa is done
-			en = 1'b0;
-			clock;
+		if(rdy == 1'b0) $display("Correct: rdy is 0 after reset and enable");
+		else begin
+			$error("Incorret: rdy is %d after reset and enable", rdy);
+			failed = failed + 1;	
 		end
 
+		//testing the always comb
+		force dut.init_started = 1;
+		force dut.init_done = 1;
+		clock;
+		if(dut.ksa_en_reg == 1) $display("Correct: ksa_en_reg is 1 after reset and enable");
+		else begin
+			$error("Incorret: ksa_en_reg is %d after reset and enable", dut.ksa_en_reg);
+			failed = failed + 1;	
+		end
+		
+		force dut.ksa_started = 1;
+		force dut.ksa_done = 1;
+		clock;
+		if(dut.prga_en_reg == 1) $display("Correct: prga_en_reg is 1 after reset and enable");
+		else begin
+			$error("Incorret: prga_en_reg is %d after reset and enable", dut.prga_en_reg);
+			failed = failed + 1;	
+		end
+
+
+		//testing the always block
+		force dut.state = 0;
+		force dut.en = 1;
+		clock;
+		if(dut.init_started == 1) $display("Correct: prga_en_reg is 1 after reset and enable");
+		else begin
+			$error("Incorret: prga_en_reg is %d after reset and enable", dut.init_started);
+			failed = failed + 1;	
+		end
+
+		force dut.state = 1;
+		force dut.ksa_en = 1;
+		clock;
+		if(dut.ksa_started == 1) $display("Correct: init_started is 1 after reset and enable");
+		else begin
+			$error("Incorret: init_started is %d after reset and enable", rdy);
+			failed = failed + 1;	
+		end
+
+		$display("Tests failed: %d", failed);
+		$stop;
 	end
 endmodule: tb_rtl_arc4
-

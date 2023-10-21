@@ -50,4 +50,3 @@ module task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
 		.pt_wrdata(pt_wrdata),
 		.pt_wren(pt_wren));
 endmodule: task3
-

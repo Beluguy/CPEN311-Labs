@@ -18,7 +18,7 @@ module prga(input logic clk, input logic rst_n,
 	integer i;
 	integer j;
 	integer k;
-	reg [7:0] ct_length; // max length = 254 (first character is length)
+	reg [7:0] ct_length; // max length = 255 (first character is length)
 	integer state;
 
 	reg [7:0] s_i;
