@@ -60,5 +60,4 @@ module tb_rtl_crack();
 			clock;
 		end
 	end
-
 endmodule: tb_rtl_crack

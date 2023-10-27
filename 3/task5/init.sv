@@ -34,5 +34,4 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		rdy <= 1'b1;
 	end
 end
-
 endmodule: init

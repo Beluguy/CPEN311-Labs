@@ -52,9 +52,5 @@ module tb_rtl_task4();
 			KEY[0] = 1'b1;
 			clock;
 		end
-		
-
-
 	end
-
 endmodule: tb_rtl_task4
