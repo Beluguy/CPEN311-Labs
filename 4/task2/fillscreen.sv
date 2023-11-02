@@ -2,29 +2,7 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
                   input logic start, output logic done,
                   output logic [7:0] vga_x, output logic [6:0] vga_y,
                   output logic [2:0] vga_colour, output logic vga_plot);
-/*wire x;
-wire y;
-wire v_colour;
-assign x = vga_x;
-assign y = vga_y;
-assign v_colour = vga_colour;*/
-/*
-always_ff @(posedge clk, negedge rst_n) begin
-     if(!rst_n) begin
-          done <= 1'b0;
-          vga_x <= 1'd0;
-          vga_plot <= 1'b1;
-     end else if (start && vga_x < 160) begin
-          vga_y <= 1'd0;
-          vga_x <= vga_x + 1'd1;
-     end else if (start && vga_y < 120) begin
-               vga_colour <= vga_x % 8'd4;
-               vga_y <= vga_y + 1'd1;
-     end else begin
-          done <= 1'b1;
-          vga_plot <= 1'b1;
-     end 
-end*/
+     // fill the screen
 integer state;
 integer x;
 integer y;
@@ -81,4 +59,6 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		end
 	end
 
+
 endmodule
+

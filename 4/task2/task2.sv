@@ -32,7 +32,7 @@ logic VGA_BLANK, VGA_SYNC;
 fillscreen fill(.clk(CLOCK_50),
 		.rst_n(KEY[3]),
 		.colour(colour),
-		.start(KEY[0]),
+		.start(~KEY[0]),
 		.done(done),
 		.vga_x(x),
 		.vga_y(y),
