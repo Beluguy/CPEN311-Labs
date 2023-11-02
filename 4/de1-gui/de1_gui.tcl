@@ -8,6 +8,7 @@ package require tooltip
 namespace eval de1 {
     array set sw { 0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 }
     array set sw_ref { 0 {} 1 {} 2 {} 3 {} 4 {} 5 {} 6 {} 7 {} 8 {} 9 {} }
+    unset key
     array set key { 0 0 1 0 2 0 3 0 }
     array set key_ref { 0 {} 1 {} 2 {} 3 {} }
     array set led { 0 z 1 z 2 z 3 z 4 z 5 z 6 z 7 z 8 z 9 z }
