@@ -12,9 +12,7 @@ fillscreen dut(.clk, .rst_n, .colour(), .start, .done, .vga_x, .vga_y, .vga_colo
 task clock;
     begin
         clk = 1'b1;
-        #1;
-        clk = 1'b0;
-        #1;
+        forever #1 clk = ~clk;
     end
 endtask
 
@@ -40,6 +38,7 @@ initial begin
             check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, x % 8, 1'b1);
         end 
     end 
+    
     clock;
     if (done == 1'b1) begin 
         start = 1'b0;
