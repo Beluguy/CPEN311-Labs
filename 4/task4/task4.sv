@@ -26,7 +26,11 @@ integer centre_x = 80;
 integer centre_y = 60;
 integer diameter = 80;
 
-
+assign VGA_X = x;
+assign VGA_Y = y;
+assign VGA_COLOUR = colour;
+assign VGA_PLOT = plot;
+// ask someone what to output to VGA_HS and VGA_VS
 
 
 logic VGA_BLANK, VGA_SYNC;
