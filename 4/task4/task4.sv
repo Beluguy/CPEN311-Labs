@@ -43,7 +43,7 @@ logic VGA_BLANK, VGA_SYNC;
 vga_adapter#(.RESOLUTION("160x120")) vga_u0(.resetn(KEY[3]), .clock(CLOCK_50), .colour(colour),
                                             .x(x), .y(y), .plot(plot),
                                             .VGA_R(VGA_R_10), .VGA_G(VGA_G_10), .VGA_B(VGA_B_10),
-					    .VGA_VS(VS), VGA_HS(HS));
+					    .VGA_VS(VS), .VGA_HS(HS));
 
 reuleaux rotary(.clk(CLOCK_50),
 		.rst_n(KEY[3]),
