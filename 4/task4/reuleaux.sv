@@ -17,18 +17,17 @@ reg plot;
 
 //test variable
 
-real coeff = 0.43301270189; //(sqrt(3))/4
 integer hor_offset;
-assign hor_offset = diameter*coeff;
+assign hor_offset = diameter/2;
 integer ver_offset;
-assign ver_offset = diameter/4;
+assign ver_offset = hor_offset*0.57735;
 integer radius;
 assign radius = 2*hor_offset;
 
-integer top_circle_centre_x;
+integer top_circle_centre_x; 
 assign top_circle_centre_x = centre_x;
 integer top_circle_centre_y;
-assign top_circle_centre_y = centre_y - diameter/2;
+assign top_circle_centre_y = centre_y - ver_offset*2;
 integer left_circle_centre_x;
 assign left_circle_centre_x = centre_x - hor_offset;
 integer left_circle_centre_y;
