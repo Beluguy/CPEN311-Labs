@@ -30,6 +30,7 @@ assign VGA_X = x;
 assign VGA_Y = y;
 assign VGA_COLOUR = colour;
 assign VGA_PLOT = plot;
+assign VGA_CLK = CLOCK_50;
 // ask someone what to output to VGA_HS and VGA_VS
 
 
