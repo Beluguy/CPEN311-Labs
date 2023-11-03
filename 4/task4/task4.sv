@@ -31,6 +31,10 @@ assign VGA_Y = y;
 assign VGA_COLOUR = colour;
 assign VGA_PLOT = plot;
 assign VGA_CLK = CLOCK_50;
+wire VS;
+assign VGA_VS = VS;
+wire HS;
+assign VGA_HS = HS;
 // ask someone what to output to VGA_HS and VGA_VS
 
 
@@ -39,7 +43,7 @@ logic VGA_BLANK, VGA_SYNC;
 vga_adapter#(.RESOLUTION("160x120")) vga_u0(.resetn(KEY[3]), .clock(CLOCK_50), .colour(colour),
                                             .x(x), .y(y), .plot(plot),
                                             .VGA_R(VGA_R_10), .VGA_G(VGA_G_10), .VGA_B(VGA_B_10),
-                                            .*);
+					    .VGA_VS(VS), VGA_HS(HS));
 
 reuleaux rotary(.clk(CLOCK_50),
 		.rst_n(KEY[3]),
