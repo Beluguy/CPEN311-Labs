@@ -20,7 +20,7 @@ reg plot;
 integer hor_offset;
 assign hor_offset = diameter/2;
 integer ver_offset;
-assign ver_offset = hor_offset*(57735/100000); //0.57735 = 57735/100000
+assign ver_offset = hor_offset*57735/100000; //0.57735 = 57735/100000
 integer radius;
 assign radius = 2*hor_offset;
 
