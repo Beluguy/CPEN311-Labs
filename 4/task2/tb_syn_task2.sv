@@ -1,3 +1,4 @@
+`timescale 1 ps / 1 ps
 module tb_syn_task2();
 
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.

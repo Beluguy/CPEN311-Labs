@@ -58,7 +58,5 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 			end
 		end
 	end
-
-
 endmodule
 

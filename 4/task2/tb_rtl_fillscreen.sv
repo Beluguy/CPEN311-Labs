@@ -1,3 +1,4 @@
+`timescale 1 ps / 1 ps
 module tb_rtl_fillscreen();
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
 wire [7:0] vga_x;
@@ -12,7 +13,9 @@ fillscreen dut(.clk, .rst_n, .colour(), .start, .done, .vga_x, .vga_y, .vga_colo
 task clock;
     begin
         clk = 1'b1;
-        forever #1 clk = ~clk;
+        #1;
+        clk = 1'b0;
+        #1;
     end
 endtask
 
@@ -42,8 +45,7 @@ initial begin
     clock;
     if (done == 1'b1) begin 
         start = 1'b0;
-        //$display("Correct! done is high");
-    end //else $error("Incorrect! done is still low");
+    end
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b, state: %d", done, vga_plot, dut.state);

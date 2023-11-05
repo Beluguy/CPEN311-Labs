@@ -38,8 +38,6 @@ assign VGA_HS = HS;
 // ask someone what to output to VGA_HS and VGA_VS
 
 
-
-
 logic VGA_BLANK, VGA_SYNC;
 
 vga_adapter#(.RESOLUTION("160x120")) vga_u0(.resetn(KEY[3]), .clock(CLOCK_50), .colour(colour),

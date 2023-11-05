@@ -16,16 +16,10 @@ assign VGA_R = VGA_R_10[9:2];
 assign VGA_G = VGA_G_10[9:2];
 assign VGA_B = VGA_B_10[9:2];
 
-/*module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
-                  input logic start, output logic done,
-                  output logic [7:0] vga_x, output logic [6:0] vga_y,
-                  output logic [2:0] vga_colour, output logic vga_plot);*/
-
 wire [2:0] colour;
 wire [7:0] x;
 wire [6:0] y;
-wire plot;
-wire done;
+wire plot, done;
 
 assign VGA_X = x;
 assign VGA_Y = y;
@@ -40,21 +34,19 @@ assign VGA_HS = HS;
 
 logic VGA_BLANK, VGA_SYNC;
 
+
 fillscreen fill(.clk(CLOCK_50),
-		.rst_n(KEY[3]),
-		.colour(colour),
-		.start(~KEY[0]),
-		.done(done),
-		.vga_x(x),
-		.vga_y(y),
-		.vga_colour(colour),
-		.vga_plot(plot));
-
-
+                .rst_n(KEY[3]),
+                .colour(colour),
+                .start(~KEY[0]),
+                .done(done),
+                .vga_x(x),
+                .vga_y(y),
+                .vga_colour(colour),
+                .vga_plot(plot));
 
 vga_adapter#(.RESOLUTION("160x120")) vga_u0(.resetn(KEY[3]), .clock(CLOCK_50), .colour(colour),
                                             .x(x), .y(y), .plot(plot),
                                             .VGA_R(VGA_R_10), .VGA_G(VGA_G_10), .VGA_B(VGA_B_10),
-					    .VGA_VS(VS), .VGA_HS(HS));
-
+					                        .VGA_VS(VS), .VGA_HS(HS));
 endmodule: task2

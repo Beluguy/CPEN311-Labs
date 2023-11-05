@@ -43,12 +43,12 @@ module tb_rtl_arc4();
 	initial begin
 		rst_n = 1'b0; //press reset
 		#1;       
-		rst_n = 1'b1;
+		rst_n = 1'b1; //release reset
 		#1;
 		clock;
 		en = 1'b1; //press enable
 		clock;
-		en = 1'b0;
+		en = 1'b0; //release enable
 		clock;
 		if(rdy == 1'b0) $display("Correct: rdy is 0 after reset and enable");
 		else begin

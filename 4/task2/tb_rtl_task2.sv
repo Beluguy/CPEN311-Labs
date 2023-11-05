@@ -9,7 +9,7 @@ module task2(input logic CLOCK_50, input logic [3:0] KEY,
              output logic VGA_HS, output logic VGA_VS, output logic VGA_CLK,
              output logic [7:0] VGA_X, output logic [6:0] VGA_Y,
              output logic [2:0] VGA_COLOUR, output logic VGA_PLOT);*/
-logic CLK;
+logic clk;
 logic [3:0] KEY;
 logic [9:0] SW;
 logic [9:0] LEDR;
@@ -22,11 +22,9 @@ logic [6:0] HEX5;
 
 integer count = 0;
 
-
 de1_gui gui(.SW, .KEY, .LEDR, .HEX5, .HEX4, .HEX3, .HEX2, .HEX1, .HEX0);
 
-task2 dut(.CLOCK_50(CLK),
-.KEY(KEY));
+task2 dut(.CLOCK_50(clk), .KEY, .SW, );
 
 task clock;
     begin
@@ -50,7 +48,6 @@ initial begin
     clk;
   end
   $stop;
-
 
 
 end
