@@ -58,7 +58,4 @@ circle circle(.clk(CLOCK_50),
              .vga_colour(colour),
 	     .vga_plot(plot));
 
-
-
-
 endmodule: task3

@@ -36,7 +36,6 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
 endtask
 
 initial begin 
-    radius = 40;
     failed = 0;
     rst_n = 1'b0;
     #1;
