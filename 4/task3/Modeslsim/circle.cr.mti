@@ -1,8 +1,0 @@
-{C:/Users/Crab/School-UBC/Year3/Term1/CPEN311/CPEN311 Labs/4/task3/circle.sv} {1 {vlog -work work -sv -stats=none {C:/Users/Crab/School-UBC/Year3/Term1/CPEN311/CPEN311 Labs/4/task3/circle.sv}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module circle
-
-Top level modules:
-	circle
-
-} {} {}}
