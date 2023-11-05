@@ -13,7 +13,8 @@ integer offset_y = 0;
 integer offset_x = radius;
 int crit = 1 - radius;
 
-circle dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), .radius(radius), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
+circle dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), 
+            .radius(radius), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
 
 task clock;
     begin
@@ -36,7 +37,6 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
 endtask
 
 initial begin 
-    radius = 40;
     failed = 0;
     rst_n = 1'b0;
     #1;
