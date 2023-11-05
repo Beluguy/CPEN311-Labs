@@ -1,5 +1,5 @@
 `timescale 1 ps / 1 ps
-module tb_syn_task3();
+module tb_rtl_task4();
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
  logic CLK;
     logic [3:0] KEY;
@@ -14,7 +14,7 @@ module tb_syn_task3();
 
     de1_gui gui(.SW, .KEY, .LEDR, .HEX5, .HEX4, .HEX3, .HEX2, .HEX1, .HEX0);
    
-    task3 dut(.CLOCK_50(CLK),
+    task4 dut(.CLOCK_50(CLK),
 		.KEY(KEY));
 
 	task clk;
@@ -45,10 +45,10 @@ end
 for(count = 0; count < 500; count = count + 1) begin
 	clk;
 end
-$stop;
+ $stop;
 
 
 
 end
 
-endmodule: tb_syn_task3
+endmodule: tb_rtl_task4

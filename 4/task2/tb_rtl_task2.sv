@@ -29,10 +29,11 @@ task2 dut(.CLOCK_50(clk), .KEY, .SW, );
 task clock;
     begin
         clk = 1'b1;
-        forever #1 clk = ~clk;
+        #1;
+        clk = 1'b0;
+        #1;
     end
 endtask
-
 
 initial begin
   KEY = 4'b1111;

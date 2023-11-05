@@ -1,5 +1,5 @@
 `timescale 1 ps / 1 ps
-module tb_rtl_reuleaux();
+module tb_syn_circle();
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
 wire [7:0] vga_x;
 wire [6:0] vga_y; 
@@ -9,25 +9,12 @@ reg clk, rst_n, start;
 int failed, x, y;
 int centre_x = 80;
 int centre_y = 60;
-int diameter = 80;
+int radius = 40;
 int offset_y = 0;
-int offset_x = diameter;
-int crit = 1 - diameter;
-int right_vga_plot;
+int offset_x = radius;
+int crit = 1 - radius;
 
-integer hor_offset = diameter/2;
-integer ver_offset = hor_offset*57735/100000; //0.57735 = 57735/100000
-integer radius = 2*hor_offset;
-
-integer top_circle_centre_x = centre_x;
-integer top_circle_centre_y = centre_y - ver_offset*2;
-integer left_circle_centre_x = centre_x - hor_offset;
-integer left_circle_centre_y = centre_y + ver_offset;
-integer right_circle_centre_x = centre_x + hor_offset;
-integer right_circle_centre_y = centre_y + ver_offset;
-
-reuleaux dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), 
-            .diameter(diameter), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
+circle dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), .radius(radius), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
 
 task clock;
     begin
@@ -49,14 +36,6 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
     end
 endtask
 
-task check_reuleaux (input int x, int y);
-        if(((dut.state == 2) || (dut.state == 3)) && (x > left_circle_centre_x) && (x < right_circle_centre_x)) right_vga_plot = 1;
-        else if(((dut.state == 4) || (dut.state == 5)) && (x >= centre_x) && (x <= right_circle_centre_x)) right_vga_plot = 1;
-        else if(((dut.state == 6) || (dut.state == 7)) && (x >= left_circle_centre_x) && (x < centre_x)) right_vga_plot = 1;
-        else right_vga_plot = 0;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, right_vga_plot);
-endtask 
-
 initial begin 
     failed = 0;
     rst_n = 1'b0;
@@ -72,26 +51,49 @@ initial begin
             check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 1'b0, 1'b1);
         end 
     end 
+    
     clock;
-    //then check is the reuleaux triangle in the correct position and size
+    //then check is the circle in the correct position and size
     while(offset_y < offset_x) begin
         clock;
-        check_reuleaux(top_circle_centre_x - offset_y, top_circle_centre_y + offset_x);
+        x = centre_x + offset_x;
+        y = centre_y + offset_y;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
-        check_reuleaux(top_circle_centre_x + offset_y, top_circle_centre_y + offset_x);
+		x = centre_x + offset_y;
+		y = centre_y + offset_x;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
-        check_reuleaux(left_circle_centre_x + offset_y, left_circle_centre_y - offset_x);
+		x = centre_x - offset_x;
+		y = centre_y + offset_y;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
-        check_reuleaux(left_circle_centre_x + offset_x, left_circle_centre_y - offset_y);
+		x = centre_x - offset_y;
+		y = centre_y + offset_x;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
-        check_reuleaux(right_circle_centre_x - offset_x, right_circle_centre_y - offset_y);
+		x = centre_x - offset_x;
+        y = centre_y - offset_y;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
-        check_reuleaux(right_circle_centre_x - offset_y, right_circle_centre_y - offset_x);
+		x = centre_x - offset_y;
+		y = centre_y - offset_x;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+
+        clock;
+		x = centre_x + offset_x;
+		y = centre_y - offset_y;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+
+        clock;
+		x = centre_x + offset_y;
+		y = centre_y - offset_x;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         offset_y = offset_y + 1;
         if (crit <= 0) crit = crit + 2*offset_y + 1;
@@ -103,9 +105,7 @@ initial begin
 
     //check is done low after drawing
     clock;
-    if (done == 1'b1) begin 
-        start = 1'b0;
-    end
+    if (done == 1'b1) start = 1'b0;
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b", done, vga_plot);
@@ -117,4 +117,4 @@ initial begin
     $display("Tests failed: %d", failed);
     $stop;
 end 
-endmodule: tb_rtl_reuleaux
+endmodule: tb_syn_circle

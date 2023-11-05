@@ -1,6 +1,5 @@
 `timescale 1 ps / 1 ps
-module tb_syn_task2();
-// Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
+module tb_rtl_task2();
 /*
 module task2(input logic CLOCK_50, input logic [3:0] KEY,
              input logic [9:0] SW, output logic [9:0] LEDR,
@@ -53,4 +52,4 @@ initial begin
 
 
 end
-endmodule: tb_syn_task2
+endmodule: tb_rtl_task2

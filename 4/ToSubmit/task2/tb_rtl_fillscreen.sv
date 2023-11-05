@@ -1,5 +1,5 @@
 `timescale 1 ps / 1 ps
-module tb_syn_fillscreen();
+module tb_rtl_fillscreen();
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
 wire [7:0] vga_x;
 wire [6:0] vga_y; 
@@ -55,4 +55,4 @@ initial begin
     $display("Tests failed: %d", failed);
     $stop;
 end 
-endmodule: tb_syn_fillscreen
+endmodule: tb_rtl_fillscreen
