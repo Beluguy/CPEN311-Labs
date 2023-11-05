@@ -117,8 +117,5 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		end
 		state <= 2;
 	end
-	
 end
-
 endmodule
-
