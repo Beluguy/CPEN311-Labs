@@ -13,7 +13,6 @@ integer y;
 integer crit;
 integer green = 2; //decimal 2 = binary 3'b010 = rgb green
 integer black = 0; //decimal 0 = binary 3'b000 = rgb black
-reg plot;
 
 //test variable
 
