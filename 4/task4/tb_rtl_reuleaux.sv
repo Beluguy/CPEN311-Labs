@@ -5,13 +5,25 @@ wire [6:0] vga_y;
 wire [2:0] vga_colour;
 wire vga_plot, done;
 reg clk, rst_n, start;
-integer failed, x, y;
-integer centre_x = 80;
-integer centre_y = 60;
-integer diameter = 80;
-integer offset_y = 0;
-integer offset_x = radius;
-int crit = 1 - radius;
+int failed, x, y;
+int centre_x = 80;
+int centre_y = 60;
+int diameter = 80;
+int offset_y = 0;
+int offset_x = diameter;
+int crit = 1 - diameter;
+int right_vga_plot;
+
+integer hor_offset = diameter/2;
+integer ver_offset = hor_offset*57735/100000; //0.57735 = 57735/100000
+integer radius = 2*hor_offset;
+
+integer top_circle_centre_x = centre_x;
+integer top_circle_centre_y = centre_y - ver_offset*2;
+integer left_circle_centre_x = centre_x - hor_offset;
+integer left_circle_centre_y = centre_y + ver_offset;
+integer right_circle_centre_x = centre_x + hor_offset;
+integer right_circle_centre_y = centre_y + ver_offset;
 
 reuleaux dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), .diameter(diameter), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
 
@@ -35,6 +47,14 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
     end
 endtask
 
+task check_reuleaux (input int x, int y);
+        if(((dut.state == 2) || (dut.state == 3)) && (x > left_circle_centre_x) && (x < right_circle_centre_x)) right_vga_plot = 1;
+        else if(((dut.state == 4) || (dut.state == 5)) && (x >= centre_x) && (x <= right_circle_centre_x)) right_vga_plot = 1;
+        else if(((dut.state == 6) || (dut.state == 7)) && (x >= left_circle_centre_x) && (x < centre_x)) right_vga_plot = 1;
+        else right_vga_plot = 0;
+        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, right_vga_plot);
+endtask 
+
 initial begin 
     failed = 0;
     rst_n = 1'b0;
@@ -51,47 +71,25 @@ initial begin
         end 
     end 
     clock;
-    //then check is the circle in the correct position
+    //then check is the reuleaux triangle in the correct position and size
     while(offset_y < offset_x) begin
         clock;
-        x = centre_x + offset_x;
-        y = centre_y + offset_y;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(top_circle_centre_x - offset_y, top_circle_centre_y + offset_x);
 
         clock;
-		x = centre_x + offset_y;
-		y = centre_y + offset_x;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(top_circle_centre_x + offset_y, top_circle_centre_y + offset_x);
 
         clock;
-		x = centre_x - offset_x;
-		y = centre_y + offset_y;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(left_circle_centre_x + offset_y, left_circle_centre_y - offset_x);
 
         clock;
-		x = centre_x - offset_y;
-		y = centre_y + offset_x;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(left_circle_centre_x + offset_x, left_circle_centre_y - offset_y);
 
         clock;
-		x = centre_x - offset_x;
-        y = centre_y - offset_y;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(right_circle_centre_x - offset_x, right_circle_centre_y - offset_y);
 
         clock;
-		x = centre_x - offset_y;
-		y = centre_y - offset_x;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
-
-        clock;
-		x = centre_x + offset_x;
-		y = centre_y - offset_y;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
-
-        clock;
-		x = centre_x + offset_y;
-		y = centre_y - offset_x;
-        check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
+        check_reuleaux(right_circle_centre_x - offset_y, right_circle_centre_y - offset_x);
 
         offset_y = offset_y + 1;
         if (crit <= 0) crit = crit + 2*offset_y + 1;

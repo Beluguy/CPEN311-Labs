@@ -68,7 +68,7 @@ assign right_circle_centre_y = centre_y + ver_offset;
 always_comb begin
 	case(state)
 		1: vga_x = x;
-                2: vga_x = top_circle_centre_x - offset_y;        //5
+        2: vga_x = top_circle_centre_x - offset_y;        //5
 		3: vga_x = top_circle_centre_x + offset_y;        //3
 		4: vga_x = left_circle_centre_x + offset_y;       //9
 		5: vga_x = left_circle_centre_x + offset_x;       //8
@@ -116,7 +116,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		offset_x <= radius;
 		x <= 0;
 		y <= 0;
-		crit <= 1- radius;
+		crit <= 1 - radius;
 	end
 	else if((state == 0) && start) begin
 		state <= 1;
@@ -157,7 +157,5 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 			crit <= crit + 2*((offset_y + 1) - offset_x) + 1;   //add 1 to offset y for crit calculation in same cycle
 		end
 	end
-	
 end
 endmodule
-

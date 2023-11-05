@@ -5,12 +5,12 @@ wire [6:0] vga_y;
 wire [2:0] vga_colour;
 wire vga_plot, done;
 reg clk, rst_n, start;
-integer failed, x, y;
-integer centre_x = 80;
-integer centre_y = 60;
-integer radius = 40;
-integer offset_y = 0;
-integer offset_x = radius;
+int failed, x, y;
+int centre_x = 80;
+int centre_y = 60;
+int radius = 40;
+int offset_y = 0;
+int offset_x = radius;
 int crit = 1 - radius;
 
 circle dut(.clk, .rst_n, .colour(vga_colour), .centre_x(centre_x), .centre_y(centre_y), .radius(radius), .start, .done, .vga_x, .vga_y, .vga_colour, .vga_plot);
@@ -50,8 +50,9 @@ initial begin
             check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 1'b0, 1'b1);
         end 
     end 
+    
     clock;
-    //then check is the circle in the correct position
+    //then check is the circle in the correct position and size
     while(offset_y < offset_x) begin
         clock;
         x = centre_x + offset_x;
