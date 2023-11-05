@@ -4,6 +4,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
               output logic [7:0] vga_x, output logic [6:0] vga_y,
               output logic [2:0] vga_colour, output logic vga_plot);
      // draw the circle
+
 integer state;
 integer offset_x;
 integer offset_y;
@@ -12,6 +13,7 @@ integer y;
 integer crit;
 integer green = 2; //decimal 2 = binary 3'b010 = rgb green
 integer black = 0; //decimal 0 = binary 3'b000 = rgb black
+reg plot;
 
 always_comb begin
 	case(state)
@@ -95,8 +97,15 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		state <= state + 1;
 	end
 	else if(state == 9) begin
-		state <= state + 1;
+		state <= 2;
 		offset_y <= offset_y + 1;
+		if(crit <= 0) begin
+			crit <= crit + 2*(offset_y + 1) + 1;
+		end
+		else begin
+			offset_x <= offset_x - 1;
+			crit <= crit + 2*((offset_y + 1) - offset_x) + 1;   //add 1 to offset y for crit calculation in same cycle
+		end
 	end
 	else if(state == 10) begin
 		if(crit <= 0) begin
@@ -108,5 +117,8 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		end
 		state <= 2;
 	end
+	
 end
+
 endmodule
+
