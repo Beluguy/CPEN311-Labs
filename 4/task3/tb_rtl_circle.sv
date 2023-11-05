@@ -105,9 +105,7 @@ initial begin
 
     //check is done low after drawing
     clock;
-    if (done == 1'b1) begin 
-        start = 1'b0;
-    end
+    if (done == 1'b1) start = 1'b0;
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b", done, vga_plot);
