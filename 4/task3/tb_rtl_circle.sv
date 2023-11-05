@@ -36,7 +36,6 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
 endtask
 
 initial begin 
-    radius = 80;
     failed = 0;
     rst_n = 1'b0;
     #1;
@@ -51,7 +50,7 @@ initial begin
             check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 1'b0, 1'b1);
         end 
     end 
-    //clock;
+    clock;
     //then check is the circle in the correct position
     while(offset_y <= offset_x) begin
        
