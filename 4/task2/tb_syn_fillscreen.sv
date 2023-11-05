@@ -41,10 +41,7 @@ initial begin
     end 
     
     clock;
-    if (done == 1'b1) begin 
-        start = 1'b0;
-        //$display("Correct! done is high");
-    end //else $error("Incorrect! done is still low");
+    if (done == 1'b1) start = 1'b0;
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b, state: %d", done, vga_plot, dut.state);

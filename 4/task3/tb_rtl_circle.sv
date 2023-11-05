@@ -1,3 +1,4 @@
+`timescale 1 ps / 1 ps
 module tb_rtl_circle();
 // Your testbench goes here. Our toplevel will give up after 1,000,000 ticks.
 wire [7:0] vga_x;
@@ -104,9 +105,7 @@ initial begin
 
     //check is done low after drawing
     clock;
-    if (done == 1'b1) begin 
-        start = 1'b0;
-    end
+    if (done == 1'b1) start = 1'b0;
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b", done, vga_plot);
