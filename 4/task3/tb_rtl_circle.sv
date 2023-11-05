@@ -36,6 +36,7 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
 endtask
 
 initial begin 
+    radius = 40;
     failed = 0;
     rst_n = 1'b0;
     #1;
@@ -53,10 +54,9 @@ initial begin
     clock;
     //then check is the circle in the correct position
     while(offset_y <= offset_x) begin
-       
+        clock;
         x = centre_x + offset_x;
         y = centre_y + offset_y;
-        clock;
         check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
@@ -71,7 +71,7 @@ initial begin
 
         clock;
 		x = centre_x - offset_y;
-		y = centre_y + offset_y;
+		y = centre_y + offset_x;
         check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
@@ -100,11 +100,14 @@ initial begin
 			offset_x <= offset_x - 1;
 			crit <= crit + 2*(offset_y - offset_x) + 1;
 		end
+	clock;
     end 
 
     //check is done low after drawing
     clock;
-    if (done == 1'b1) start = 1'b0;
+    if (done == 1'b1) begin 
+        start = 1'b0;
+    end
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b", done, vga_plot);
