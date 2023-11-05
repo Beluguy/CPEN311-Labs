@@ -96,7 +96,7 @@ initial begin
 
         offset_y = offset_y + 1;
         if (crit <= 0) crit = crit + 2*offset_y + 1;
-        else  begin
+        else begin
 			offset_x <= offset_x - 1;
 			crit <= crit + 2*(offset_y - offset_x) + 1;
 		end
@@ -105,9 +105,7 @@ initial begin
 
     //check is done low after drawing
     clock;
-    if (done == 1'b1) begin 
-        start = 1'b0;
-    end
+    if (done == 1'b1) start = 1'b0;
     clock;
     if(done == 1'b1 && vga_plot == 1'b0) 
         $display("Correct! done: %b, vga_plot: %b", done, vga_plot);
