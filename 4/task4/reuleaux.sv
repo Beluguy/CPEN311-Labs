@@ -4,6 +4,7 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
                 output logic [7:0] vga_x, output logic [6:0] vga_y,
                 output logic [2:0] vga_colour, output logic vga_plot);
      // draw the Reuleaux triangle
+
 integer state;
 integer offset_x;
 integer offset_y;
@@ -12,12 +13,14 @@ integer y;
 integer crit;
 integer green = 2; //decimal 2 = binary 3'b010 = rgb green
 integer black = 0; //decimal 0 = binary 3'b000 = rgb black
+reg plot;
 
 //test variable
+
 integer hor_offset;
 assign hor_offset = diameter/2;
 integer ver_offset;
-assign ver_offset = hor_offset*57735/100000; //0.57735 = 57735/100000 = 1/sqrt3
+assign ver_offset = hor_offset*57735/100000; //0.57735 = 57735/100000
 integer radius;
 assign radius = 2*hor_offset;
 
@@ -66,7 +69,7 @@ assign right_circle_centre_y = centre_y + ver_offset;
 always_comb begin
 	case(state)
 		1: vga_x = x;
-        2: vga_x = top_circle_centre_x - offset_y;        //5
+                2: vga_x = top_circle_centre_x - offset_y;        //5
 		3: vga_x = top_circle_centre_x + offset_y;        //3
 		4: vga_x = left_circle_centre_x + offset_y;       //9
 		5: vga_x = left_circle_centre_x + offset_x;       //8
@@ -145,18 +148,17 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		state <= state + 1;
 	end
 	else if(state == 7) begin
-		state <= state + 1;
+		state <= 2;
 		offset_y <= offset_y + 1;
-	end
-	else if(state == 8) begin
 		if(crit <= 0) begin
-			crit <= crit + 2*offset_y + 1;
+			crit <= crit + 2*(offset_y + 1) + 1;
 		end
 		else begin
 			offset_x <= offset_x - 1;
-			crit <= crit + 2*(offset_y - offset_x) + 1;
+			crit <= crit + 2*((offset_y + 1) - offset_x) + 1;   //add 1 to offset y for crit calculation in same cycle
 		end
-		state <= 2;
 	end
+	
 end
 endmodule
+
