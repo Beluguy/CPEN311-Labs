@@ -54,9 +54,10 @@ initial begin
     //clock;
     //then check is the circle in the correct position
     while(offset_y <= offset_x) begin
-        clock;
+       
         x = centre_x + offset_x;
         y = centre_y + offset_y;
+        clock;
         check_output(vga_x, vga_y, vga_colour, vga_plot, x, y, 2'd2, 1'b1);
 
         clock;
