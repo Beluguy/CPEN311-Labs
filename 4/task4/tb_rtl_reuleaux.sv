@@ -29,8 +29,8 @@ task check_output (input int dut_x, int dut_y, int dut_colour, bit dut_vga_plot,
         $display("Correct! vga_x: %3d, vga_y: %3d, vga_colour: %3d, vga_plot:%b", dut_x, dut_y, dut_colour, vga_plot);
     else begin
         $error("Incorrect! expectd vga_x: %3d, actual vga_x: %3d, expected vga_y: %3d, actual vga_y: %3d,
-                        expected vga_colour: %3d, actual vga_colour: %3d, expected vga_plot: %b, actual vga_plot: %b", 
-                        correct_x, dut_x, correct_y, dut_y, correct_colour, dut_colour, correct_vga_plot, vga_plot);
+                expected vga_colour: %3d, actual vga_colour: %3d, expected vga_plot: %b, actual vga_plot: %b", 
+                correct_x, dut_x, correct_y, dut_y, correct_colour, dut_colour, correct_vga_plot, vga_plot);
         failed = failed + 1;	
     end
 endtask
