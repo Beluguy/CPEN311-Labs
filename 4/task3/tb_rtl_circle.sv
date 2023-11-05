@@ -96,15 +96,13 @@ initial begin
 
         offset_y = offset_y + 1;
         if (crit <= 0) crit = crit + 2*offset_y + 1;
-        else  begin
+        else begin
 			offset_x <= offset_x - 1;
 			crit <= crit + 2*(offset_y - offset_x) + 1;
 		end
-	
     end 
 
     //check is done low after drawing
-    clock;
     clock;
     if (done == 1'b1) begin 
         start = 1'b0;
