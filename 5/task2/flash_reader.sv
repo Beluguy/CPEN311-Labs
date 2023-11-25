@@ -17,7 +17,7 @@ logic [31:0] flash_mem_readdata;
 logic [3:0] flash_mem_byteenable;
 logic wren;
 
-flash flash_inst(.clk_clk(clk), 
+flash_test flash_inst(.clk_clk(clk), 
 		.reset_reset_n(rst_n), 
 		.flash_mem_write(1'b0), 
 		.flash_mem_burstcount(1'b1),
@@ -114,9 +114,5 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 			state <= 1;
 		end
 	end
-
-	
-	
 end
-
 endmodule: flash_reader
