@@ -191,7 +191,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 11) begin
 		if(write_ready == 1'b1) begin
 			state <= 7;
-			writedata_right <= data2; //<<< 6 (ASR 6 -> divide by 64)
+			writedata_right <= data2; //>>> 6 (ASR 6 -> divide by 64)
 			writedata_left <= data2;
 			write_s <= 1'b1;
 		end
