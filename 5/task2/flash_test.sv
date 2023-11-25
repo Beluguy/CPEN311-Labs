@@ -11,22 +11,24 @@ always_ff @(posedge clk_clk) begin
     if (!reset_reset_n) begin
         state <= reset;   
         counter <= 0;   
+        flash_mem_readdatavalid <= 1'b0;
     end   
     else begin
         case (state)
             reset: state <= waiting;
             waiting: begin
-                if (counter == 2) begin
+                if (counter == 1) begin
                     counter <= 0;
                     flash_mem_readdata <= flash_mem_address;
+                    flash_mem_readdatavalid <= 1'b1;
                 end 
                 else if (flash_mem_read) state <= busy;
                 else state <= waiting;
             end 
             busy: begin
-                if (counter < 2) counter <= counter + 1;
+                if (counter < 1) counter <= counter + 1;
                 else if (flash_mem_address == 256) state <= finished;
-                else if (flash_mem_address < 256 && counter == 2) state <= waiting;
+                else if (flash_mem_address < 256 && counter == 1) state <= waiting;
                 else state <= busy;
             end 
             finished: state <= finished;
@@ -36,5 +38,4 @@ always_ff @(posedge clk_clk) begin
 end
 
 assign flash_mem_waitrequest = (state == busy) ? 1'b1 : 1'b0;
-assign flash_mem_readdatavalid = (state == waiting) ? 1'b1 : 1'b0;
 endmodule: flash_test

@@ -1,6 +1,6 @@
 `timescale 1 ps / 1 ps
 module tb_flash_reader();
-integer i, failed;
+integer i, y, failed;
 reg clk;
 reg [3:0] key;
 flash_reader dut(.CLOCK_50(clk), .KEY(key));
@@ -28,10 +28,12 @@ initial begin
     key[0] = 1'b0; //press enable
     clock;
     key[3] = 1'b1; //release reset
-    clock;
+    for (y = 0; y < 6; y = y + 1) clock;
     for (i = 0; i < 256; i = i + 1) begin 
-        clock;
         check_output(dut.samples.data, i);
+        for (y = 0; y < 7; y = y + 1) begin
+            clock;
+        end 
     end 
     $display("Tests failed: %d", failed);
     $stop;
