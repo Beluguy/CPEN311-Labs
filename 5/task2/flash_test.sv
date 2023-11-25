@@ -8,12 +8,15 @@ enum reg [1:0] {reset, waiting, busy, finished} state;
 int counter;
 
 always_ff @(posedge clk_clk) begin
-    if (!reset_reset_n) state <= reset;        
+    if (!reset_reset_n) begin
+        state <= reset;   
+        counter <= 0;   
+    end   
     else begin
         case (state)
             reset: state <= waiting;
             waiting: begin
-                if (counter == 3) begin
+                if (counter == 2) begin
                     counter <= 0;
                     flash_mem_readdata <= flash_mem_address;
                 end 
@@ -21,8 +24,11 @@ always_ff @(posedge clk_clk) begin
                 else state <= waiting;
             end 
             busy: begin
+                if (counter < 2) begin
+                    counter <= counter + 1;
+                end 
                 if (flash_mem_address == 256) state <= finished;
-                else if (flash_mem_address < 256 && counter == 3) state <= waiting;
+                else if (flash_mem_address < 256 && counter == 2) state <= waiting;
                 else state <= busy;
             end 
             finished: state <= finished;
