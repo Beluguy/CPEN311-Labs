@@ -44,6 +44,7 @@ reg [15:0] data2;
 integer state;
 integer addr;
 integer wr_addr;
+integer mode;
 
 assign rst_n = KEY[3];
 assign reset = ~(KEY[3]);
@@ -81,6 +82,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		write_s <= 1'b0;
 		data1<= 16'b0;
 		data2<= 16'b0;
+		mode<= 0;
 	end
 	else if((state == 0) && en) begin 
 		state <= state + 1;
@@ -88,6 +90,15 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 1) begin
 		write_s <= 1'b0;
 		state <= state + 1;
+		if(SW[1:0]==2'b01) begin
+			mode <= 1;
+		end
+		else if(SW[1:0]==2'b10) begin
+			mode <= 2;
+		end
+		else if((SW[1:0]==2'b00) || (SW[1:0]==2'b11))begin
+			mode <= 0;
+		end	
 	end
 	else if(state == 2) begin
 		if(flash_mem_waitrequest == 0) begin
@@ -109,11 +120,11 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	end
 	else if(state == 4) begin
 		if(write_ready == 1'b1) begin
-			if (SW[1:0]==2'b01) begin
+			if (mode == 1) begin
 				wr_addr <= wr_addr + 2;
 				state <= 7; // skip data2 entirely to double frequency
 			end
-			else if(SW[1:0]==2'b10) begin
+			else if(mode == 2) begin
 				wr_addr <= wr_addr + 1;
 				state <= 8;  //additional states to send data 1 a second time before moving to data2 (half frequency)
 			end
@@ -142,7 +153,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 			writedata_right <= data2;
 			writedata_left <= data2;
 			write_s <= 1'b1;
-			if(SW[1:0]==2'b10)begin  //additional states to send data 2 a second time 
+			if(mode == 2)begin  //additional states to send data 2 a second time 
 				state <= 10;
 			end
 			else begin
