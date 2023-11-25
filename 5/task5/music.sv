@@ -63,6 +63,14 @@ always_comb begin
 	endcase	
 end
 
+/*
+state cycles
+
+normal speed: 0->1->2->3->4->5->6->7->1...
+double speed: 0->1->2->3->4->7->1...
+half speed:   0->1->2->3->4->8->9->5->6->10->11->7->1...
+
+*/
 always_ff @(posedge(clk), negedge(rst_n)) begin
 	if(!rst_n) begin
 		state <= 0;
@@ -71,6 +79,8 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		writedata_left <= 0;
 		writedata_right <= 0;
 		write_s <= 1'b0;
+		data1<= 16'b0;
+		data2<= 16'b0;
 	end
 	else if((state == 0) && en) begin 
 		state <= state + 1;
@@ -99,8 +109,19 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	end
 	else if(state == 4) begin
 		if(write_ready == 1'b1) begin
-			wr_addr <= wr_addr + 1;
-			state <= state + 1;
+			if (SW[1:0]==2'b01) begin
+				wr_addr <= wr_addr + 2;
+				state <= 7; // skip data2 entirely to double frequency
+			end
+			else if(SW[1:0]==2'b10) begin
+				wr_addr <= wr_addr + 1;
+				state <= 8;  //additional states to send data 1 a second time before moving to data2 (half frequency)
+			end
+			else begin
+				wr_addr <= wr_addr + 1;
+				state <= state + 1;
+			end
+
 			writedata_right <= data1;
 			writedata_left <= data1;
 			write_s <= 1'b1;
@@ -118,27 +139,66 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 6) begin
 		if(write_ready == 1'b1) begin
 			wr_addr <= wr_addr + 1;
-			addr <= addr + 1;
 			writedata_right <= data2;
 			writedata_left <= data2;
 			write_s <= 1'b1;
-			state <= state + 1;
+			if(SW[1:0]==2'b10)begin  //additional states to send data 2 a second time 
+				state <= 10;
+			end
+			else begin
+				state <= state + 1;
+			end
 		end
 	end
 	else if(state == 7) begin
 		if(write_ready == 1'b0) begin
 			write_s <= 1'b0;
 			if((wr_addr + 1) >= 2097152) begin
-				state <= 1;                //request another button press to play again
+				state <= 1;                
 				addr <= 0;
 				wr_addr <= 0;
 			end
 			else begin
+				addr <= addr + 1;
 				state <= 1;
 			end
 		end
 	end
 
+	else if(state == 8) begin
+		if(write_ready == 1'b0) begin
+			state <= state + 1;
+			write_s <= 1'b0;
+		end
+	end
+	else if(state == 9) begin
+		if(write_ready == 1'b1) begin
+			state <= 5;
+			writedata_right <= data1;
+			writedata_left <= data1;
+			write_s <= 1'b1;
+		end
+		else begin
+			state <= state;
+		end
+	end
+	else if(state == 10) begin
+		if(write_ready == 1'b0) begin
+			state <= state + 1;
+			write_s <= 1'b0;
+		end
+	end
+	else if(state == 11) begin
+		if(write_ready == 1'b1) begin
+			state <= 7;
+			writedata_right <= data2; //<<< 6 (ASR 6 -> divide by 64)
+			writedata_left <= data2;
+			write_s <= 1'b1;
+		end
+		else begin
+			state <= state;
+		end
+	end
 	
 	
 end
