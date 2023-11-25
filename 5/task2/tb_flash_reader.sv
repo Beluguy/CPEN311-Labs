@@ -29,12 +29,12 @@ initial begin
     clock;
     key[3] = 1'b1; //release reset
     for (y = 0; y < 6; y = y + 1) clock;
-    for (i = 0; i < 256; i = i + 1) begin 
-        check_output(dut.samples.data, i);
-        for (y = 0; y < 7; y = y + 1) begin
-            clock;
+        for (i = 0; i < 256; i = i + 1) begin 
+            check_output(dut.samples.data, i);
+            for (y = 0; y < 7; y = y + 1) begin
+                clock;
+            end 
         end 
-    end 
     $display("Tests failed: %d", failed);
     $stop;
 end
