@@ -1,9 +1,9 @@
 module chipmunks(input CLOCK_50, input CLOCK2_50, input [3:0] KEY, input [9:0] SW,
-                 input AUD_DACLRCK, input AUD_ADCLRCK, input AUD_BCLK, input AUD_ADCDAT,
-                 inout FPGA_I2C_SDAT, output FPGA_I2C_SCLK, output AUD_DACDAT, output AUD_XCK,
-                 output [6:0] HEX0, output [6:0] HEX1, output [6:0] HEX2,
-                 output [6:0] HEX3, output [6:0] HEX4, output [6:0] HEX5,
-                 output [9:0] LEDR);
+             input AUD_DACLRCK, input AUD_ADCLRCK, input AUD_BCLK, input AUD_ADCDAT,
+             inout FPGA_I2C_SDAT, output FPGA_I2C_SCLK, output AUD_DACDAT, output AUD_XCK,
+             output [6:0] HEX0, output [6:0] HEX1, output [6:0] HEX2,
+             output [6:0] HEX3, output [6:0] HEX4, output [6:0] HEX5,
+             output [9:0] LEDR);
 			
 // signals that are used to communicate with the audio core
 // DO NOT alter these -- we will use them to test your design
@@ -39,11 +39,13 @@ flash flash_inst(.clk_clk(clk), .reset_reset_n(rst_n), .flash_mem_write(1'b0), .
 
 // your code for the rest of this task here
 
-reg [15:0] data1;
-reg [15:0] data2;
+reg signed [15:0] data1;
+reg signed [15:0] data2;
 integer state;
 integer addr;
 integer wr_addr;
+integer mode;
+integer vol;
 
 assign rst_n = KEY[3];
 assign reset = ~(KEY[3]);
@@ -61,6 +63,10 @@ always_comb begin
 		2: flash_mem_read = 1'b1;
 		default: flash_mem_read = 1'b0;
 	endcase	
+	case(SW[2])
+		0: vol = 0;
+		1: vol = 6;
+	endcase
 end
 
 /*
@@ -71,7 +77,7 @@ double speed: 0->1->2->3->4->7->1...
 half speed:   0->1->2->3->4->8->9->5->6->10->11->7->1...
 
 */
-always_ff @(posedge(clk), negedge(rst_n)) begin
+always_ff @(posedge(clk)) begin
 	if(!rst_n) begin
 		state <= 0;
 		addr <= 0;
@@ -81,6 +87,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		write_s <= 1'b0;
 		data1<= 16'b0;
 		data2<= 16'b0;
+		mode<= 0;
 	end
 	else if((state == 0) && en) begin 
 		state <= state + 1;
@@ -88,6 +95,15 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 1) begin
 		write_s <= 1'b0;
 		state <= state + 1;
+		if(SW[1:0]==2'b01) begin
+			mode <= 1;
+		end
+		else if(SW[1:0]==2'b10) begin
+			mode <= 2;
+		end
+		else if((SW[1:0]==2'b00) || (SW[1:0]==2'b11))begin
+			mode <= 0;
+		end	
 	end
 	else if(state == 2) begin
 		if(flash_mem_waitrequest == 0) begin
@@ -99,8 +115,8 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	end
 	else if(state == 3) begin
 		if(flash_mem_readdatavalid == 1) begin
-			data1 <= flash_mem_readdata[15:0];
-			data2 <= flash_mem_readdata[31:16];
+			data1 <= (flash_mem_readdata[15:0] >>> vol);
+			data2 <= (flash_mem_readdata[31:16] >>> vol);
 			state <= state + 1;
 		end
 		else begin
@@ -109,11 +125,11 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	end
 	else if(state == 4) begin
 		if(write_ready == 1'b1) begin
-			if (SW[1:0]==2'b01) begin
+			if (mode == 1) begin
 				wr_addr <= wr_addr + 2;
 				state <= 7; // skip data2 entirely to double frequency
 			end
-			else if(SW[1:0]==2'b10) begin
+			else if(mode == 2) begin
 				wr_addr <= wr_addr + 1;
 				state <= 8;  //additional states to send data 1 a second time before moving to data2 (half frequency)
 			end
@@ -142,7 +158,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 			writedata_right <= data2;
 			writedata_left <= data2;
 			write_s <= 1'b1;
-			if(SW[1:0]==2'b10)begin  //additional states to send data 2 a second time 
+			if(mode == 2)begin  //additional states to send data 2 a second time 
 				state <= 10;
 			end
 			else begin
@@ -191,7 +207,7 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	else if(state == 11) begin
 		if(write_ready == 1'b1) begin
 			state <= 7;
-			writedata_right <= data2;
+			writedata_right <= data2; //>>> 6 (ASR 6 -> divide by 64)
 			writedata_left <= data2;
 			write_s <= 1'b1;
 		end
@@ -202,6 +218,5 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	
 	
 end
-
 
 endmodule: chipmunks
