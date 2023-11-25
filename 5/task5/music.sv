@@ -39,12 +39,13 @@ flash flash_inst(.clk_clk(clk), .reset_reset_n(rst_n), .flash_mem_write(1'b0), .
 
 // your code for the rest of this task here
 
-reg [15:0] data1;
-reg [15:0] data2;
+reg signed [15:0] data1;
+reg signed [15:0] data2;
 integer state;
 integer addr;
 integer wr_addr;
 integer mode;
+integer vol;
 
 assign rst_n = KEY[3];
 assign reset = ~(KEY[3]);
@@ -62,6 +63,10 @@ always_comb begin
 		2: flash_mem_read = 1'b1;
 		default: flash_mem_read = 1'b0;
 	endcase	
+	case(SW[2])
+		0: vol = 0;
+		1: vol = 6;
+	endcase
 end
 
 /*
@@ -72,7 +77,7 @@ double speed: 0->1->2->3->4->7->1...
 half speed:   0->1->2->3->4->8->9->5->6->10->11->7->1...
 
 */
-always_ff @(posedge(clk), negedge(rst_n)) begin
+always_ff @(posedge(clk)) begin
 	if(!rst_n) begin
 		state <= 0;
 		addr <= 0;
@@ -110,8 +115,8 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 	end
 	else if(state == 3) begin
 		if(flash_mem_readdatavalid == 1) begin
-			data1 <= flash_mem_readdata[15:0];
-			data2 <= flash_mem_readdata[31:16];
+			data1 <= (flash_mem_readdata[15:0] >>> vol);
+			data2 <= (flash_mem_readdata[31:16] >>> vol);
 			state <= state + 1;
 		end
 		else begin
