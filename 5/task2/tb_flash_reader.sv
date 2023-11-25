@@ -1,9 +1,9 @@
 `timescale 1 ps / 1 ps
 module tb_flash_reader();
 integer i, failed;
-reg clk, rst_n;
-reg [3:0] en;
-flash_reader dut(.CLOCK_50(clk), .KEY(en));
+reg clk;
+reg [3:0] key;
+flash_reader dut(.CLOCK_50(clk), .KEY(key));
 
 task clock;
     begin
@@ -24,11 +24,11 @@ endtask
 
 initial begin 
     failed = 0;
-    rst_n = 1'b0;
-    en = 4'd0;
-    #1;
-    rst_n = 1'b1;
-    #1;
+    key[3] = 1'b0; //press reset
+    key[0] = 1'b0; //press enable
+    clock;
+    key[3] = 1'b1; //release reset
+    clock;
     for (i = 0; i < 256; i = i + 1) begin 
         clock;
         check_output(dut.samples.data, i);

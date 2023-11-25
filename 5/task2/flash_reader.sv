@@ -73,8 +73,8 @@ always_ff @(posedge(clk), negedge(rst_n)) begin
 		state <= 0;
 		addr <= 0;
 		wr_addr <= 0;
-		data1<= 16'b0;
-		data2<= 16'b0;
+		data1 <= 16'b0;
+		data2 <= 16'b0;
 	end
 	else if((state == 0) && en) begin 
 		state <= state + 1;
