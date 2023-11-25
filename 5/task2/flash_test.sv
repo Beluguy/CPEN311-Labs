@@ -19,20 +19,25 @@ always_ff @(posedge clk_clk) begin
             waiting: begin
                 if (counter == 1) begin
                     counter <= 0;
-                    flash_mem_readdata <= flash_mem_address;
+                    flash_mem_readdata [15:0] <= flash_mem_address * 2;
+                    flash_mem_readdata [31:16] <= flash_mem_address * 2 + 1;
                     flash_mem_readdatavalid <= 1'b1;
                 end 
                 else if (flash_mem_read) state <= busy;
                 else state <= waiting;
             end 
             busy: begin
+                flash_mem_readdatavalid <= 1'b0;
                 if (counter < 1) counter <= counter + 1;
                 else if (flash_mem_address == 256) state <= finished;
                 else if (flash_mem_address < 256 && counter == 1) state <= waiting;
                 else state <= busy;
             end 
             finished: state <= finished;
-            default: state <= reset;
+            default: begin 
+                state <= reset;
+                flash_mem_readdatavalid <= 1'b0;
+            end 
         endcase
     end
 end

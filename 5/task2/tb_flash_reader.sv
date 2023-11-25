@@ -14,10 +14,11 @@ task clock;
     end
 endtask
 
-task check_output (input int actual_data, int correct_data);
-    if(actual_data == correct_data) $display("Correct! actual_data: %d", actual_data);
+task check_output (input int actual_data1, int correct_data1, int actual_data2, int correct_data2);
+    if(actual_data1 == correct_data1 && actual_data2 == correct_data2) 
+        $display("Correct! actual_data1: %d, actual_data2: %d", actual_data1, actual_data2);
     else begin
-        $error("Incorrect! actual_data: %d", actual_data);
+        $error("Incorrect! actual_data1: %d, it should be %d, actual_data2: %d, it should be %d", actual_data1, correct_data1, actual_data2, correct_data2);
         failed = failed + 1;	
     end
 endtask
@@ -29,12 +30,10 @@ initial begin
     clock;
     key[3] = 1'b1; //release reset
     for (y = 0; y < 6; y = y + 1) clock;
-        for (i = 0; i < 256; i = i + 1) begin 
-            check_output(dut.samples.data, i);
-            for (y = 0; y < 7; y = y + 1) begin
-                clock;
-            end 
-        end 
+    for (i = 0; i < 128; i = i + 1) begin
+        check_output(dut.data1, i * 2, dut.data2, i * 2 + 1);
+        for (y = 0; y < 7; y = y + 1) clock;
+    end
     $display("Tests failed: %d", failed);
     $stop;
 end
