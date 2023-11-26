@@ -1,10 +1,10 @@
 `timescale 1 ps / 1 ps
-module tb_music();
+module tb_chipmunks();
 integer i, y, failed;
 reg clk, write_ready;
 reg [9:0] SW;
 reg [3:0] key;
-music dut(.CLOCK_50(clk), .KEY(key), .SW);
+chipmunks dut(.CLOCK_50(clk), .KEY(key), .SW);
 
 task clock;
     begin
@@ -42,4 +42,4 @@ initial begin
     $display("Tests failed: %d", failed);
     $stop;
 end
-endmodule: tb_music
+endmodule: tb_chipmunks
