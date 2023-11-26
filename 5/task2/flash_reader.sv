@@ -16,8 +16,8 @@ logic [22:0] flash_mem_address;
 logic [31:0] flash_mem_readdata;
 logic [3:0] flash_mem_byteenable;
 logic wren;
-
-flash_test flash_inst(.clk_clk(clk), 
+//replace 'flash' with 'flash_test' for simulation
+flash flash_inst(.clk_clk(clk), 
 		.reset_reset_n(rst_n), 
 		.flash_mem_write(1'b0), 
 		.flash_mem_burstcount(1'b1),
