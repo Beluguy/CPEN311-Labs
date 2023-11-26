@@ -4,7 +4,7 @@ integer i, y, failed;
 reg clk, write_ready;
 reg [9:0] SW;
 reg [3:0] key;
-music dut(.CLOCK_50(clk), .KEY(key), . SW);
+music dut(.CLOCK_50(clk), .KEY(key), .SW);
 
 task clock;
     begin
