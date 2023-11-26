@@ -28,7 +28,7 @@ initial begin
     failed = 0;
     key[3] = 1'b0; //press reset
     key[0] = 1'b0; //press enable
-    SW = 3'b0000000000; // set volume to   
+    SW = 3'b0000000000; // set volume to high
     clock;
     key[3] = 1'b1; //release reset
     for (y = 0; y < 7; y = y + 1) clock;
